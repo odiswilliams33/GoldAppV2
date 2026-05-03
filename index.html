@@ -46,9 +46,11 @@
         .totals-banner { background: var(--primary); color: white; padding: 18px; border-radius: 12px !important; display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 5px solid var(--accent-gold); }
         .total-val { font-size: 1.6rem; font-weight: 900; color: var(--accent-gold); font-family: ui-monospace, monospace; }
 
+        /* GRID SETTINGS */
         .grid-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        /* ASYMMETRICAL DATE ROW */
-        .date-row { grid-template-columns: 0.5fr 1fr !important; }
+        
+        /* SPECIFIC ROW OVERRIDE FOR DATE & NAME */
+        .date-name-row { grid-template-columns: 130px 1fr !important; }
 
         .input-group { display: flex; flex-direction: column; gap: 4px; }
         
@@ -116,7 +118,8 @@
 
     <details style="margin-bottom: 15px;">
         <summary style="cursor:pointer; font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase;">Transaction Details</summary>
-        <div class="grid-settings date-row">
+        <!-- ADJUSTED ROW FOR DATE AND NAME -->
+        <div class="grid-settings date-name-row">
             <div class="input-group"><label>Date</label><input type="date" id="docDate" oninput="syncHeader()"></div>
             <div class="input-group"><label>Seller Name</label><input type="text" id="seller" placeholder="Customer Name" oninput="syncHeader()"></div>
         </div>
