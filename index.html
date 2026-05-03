@@ -48,16 +48,13 @@
 
         .grid-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         
-        /* UPDATED: FLEXBOX FIX FOR OVERLAP */
+        /* NEW GRID APPROACH FOR THE HEADER ROW */
         .date-name-row { 
-            display: flex !important; 
+            display: grid !important; 
+            grid-template-columns: 40% 1fr !important; /* Forces explicit split */
             gap: 12px; 
-            align-items: flex-end;
         }
-        .date-group { width: 130px; flex-shrink: 0; }
-        .name-group { flex-grow: 1; }
-
-        .input-group { display: flex; flex-direction: column; gap: 4px; }
+        .input-group { display: flex; flex-direction: column; gap: 4px; min-width: 0; } /* min-width: 0 prevents content overflow */
         
         label { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
         input, select, textarea { padding: 12px; border: 1px solid var(--border); border-radius: 8px !important; font-size: 1rem; width: 100%; font-weight: 600; outline: none; }
@@ -68,7 +65,7 @@
         .btn-add { background: var(--primary); color: var(--accent-gold); border: 2px solid var(--accent-gold); padding: 12px; border-radius: 8px !important; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; }
 
         .item-card { border: 1px solid var(--border); border-radius: 15px !important; padding: 15px; margin-bottom: 12px; background: white; transition: all 0.2s; }
-        .item-card.editing { border: 2px solid var(--accent-gold); box-shadow: 0 4px 12px rgba(234, 179, 8, 0.1); }
+        .item-card.editing { border: 2px solid var(--accent-gold); border-width: 2px; box-shadow: 0 4px 12px rgba(234, 179, 8, 0.1); }
         .card-view { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .card-left { display: flex; align-items: center; gap: 12px; }
         
@@ -124,8 +121,8 @@
     <details style="margin-bottom: 15px;" open>
         <summary style="cursor:pointer; font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase;">Transaction Details</summary>
         <div class="grid-settings date-name-row">
-            <div class="input-group date-group"><label>Date</label><input type="date" id="docDate" oninput="syncHeader()"></div>
-            <div class="input-group name-group"><label>Seller Name</label><input type="text" id="seller" placeholder="Customer Name" oninput="syncHeader()"></div>
+            <div class="input-group"><label>Date</label><input type="date" id="docDate" oninput="syncHeader()"></div>
+            <div class="input-group"><label>Seller Name</label><input type="text" id="seller" placeholder="Customer Name" oninput="syncHeader()"></div>
         </div>
         <div class="grid-settings">
             <div class="input-group"><label>Spot Price</label><input type="number" id="spotPrice" oninput="recalc()"></div>
