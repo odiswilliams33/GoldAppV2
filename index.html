@@ -795,14 +795,6 @@
             line-height: 1;
         }
 
-        .profit-cell {
-            font-weight: 700;
-            color: #2f855a;
-        }
-
-        .profit-cell.negative {
-            color: #c53030;
-        }
 
         .quick-add-row {
             display: flex;
@@ -972,7 +964,7 @@
             .items-table td:nth-child(2),
             .items-table td:nth-child(3),
             .items-table td:nth-child(5),
-            .items-table td:nth-child(8) {
+            .items-table td:nth-child(7) {
                 display: inline-block;
                 vertical-align: middle;
             }
@@ -1001,7 +993,7 @@
                 font-weight: 600;
             }
 
-            .items-table td:nth-child(8) {
+            .items-table td:nth-child(7) {
                 width: 38px;
                 margin-left: 2px;
             }
@@ -1026,7 +1018,7 @@
             .items-table tbody tr.expanded td:nth-child(5),
             .items-table tbody tr.expanded td:nth-child(6),
             .items-table tbody tr.expanded td:nth-child(7),
-            .items-table tbody tr.expanded td:nth-child(8) {
+            .items-table tbody tr.expanded td:nth-child(7) {
                 display: block;
                 width: 100% !important;
                 margin-right: 0 !important;
@@ -1071,15 +1063,6 @@
             }
 
             .items-table tbody tr.expanded td:nth-child(6)::before {
-                content: 'Profit @ Spot';
-                display: block;
-                font-size: 0.7em;
-                color: #718096;
-                margin-bottom: 2px;
-                font-weight: 600;
-            }
-
-            .items-table tbody tr.expanded td:nth-child(7)::before {
                 content: 'Note';
                 display: block;
                 font-size: 0.7em;
@@ -1104,9 +1087,6 @@
                 font-size: 1em;
             }
 
-            .profit-cell {
-                font-size: 0.95em;
-            }
 
             .quick-add-row {
                 flex-direction: column;
@@ -1118,6 +1098,241 @@
                 justify-content: center;
             }
         }
+    
+
+        /* Ultra compact receipt redesign */
+        :root {
+            --gold: #b7791f;
+            --gold-dark: #8a5a12;
+            --ink: #1f2937;
+            --muted: #6b7280;
+            --line: #e5e7eb;
+            --soft: #f8fafc;
+        }
+
+        body {
+            background: radial-gradient(circle at top left, #fff7e6 0, #f8fafc 34%, #e8eefc 100%);
+            padding: 14px;
+            padding-top: 18px;
+        }
+
+        .container {
+            max-width: 980px;
+            padding: 20px;
+            border-radius: 18px;
+            box-shadow: 0 18px 45px rgba(31, 41, 55, 0.18);
+        }
+
+        .header-row {
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        h1 {
+            font-size: 1.25em;
+            letter-spacing: -0.02em;
+        }
+
+        .market-price-header {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: var(--gold-dark);
+            padding: 6px 10px;
+            border-radius: 999px;
+        }
+
+        .settings-grid {
+            padding: 12px 14px 14px;
+            margin-bottom: 10px;
+            border: 1px solid var(--line);
+            background: var(--soft);
+        }
+
+        .input-row, .date-seller-row {
+            width: 100%;
+            gap: 10px;
+        }
+
+        label {
+            font-size: 0.74em;
+            margin-bottom: 4px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], .karat-select {
+            height: 36px;
+            padding: 7px 9px;
+            border-radius: 7px;
+            font-size: 0.92em;
+        }
+
+        .summary-line {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            padding: 9px 12px;
+            margin-bottom: 10px;
+            border: 1px solid #dbeafe;
+            background: #eff6ff;
+            font-size: 0.9em;
+        }
+
+        .summary-line strong {
+            color: #1d4ed8;
+            font-size: 1em;
+        }
+
+        .section-header {
+            margin-bottom: 8px;
+            gap: 10px;
+        }
+
+        .section-header h2 {
+            font-size: 1.05em;
+        }
+
+        .section-header > div {
+            gap: 6px !important;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .add-btn, .export-btn, .delete-selected-btn, .reset-btn, .pdf-btn {
+            padding: 7px 11px;
+            border-radius: 7px;
+            font-size: 0.82em;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+
+        .quick-add-row {
+            margin-bottom: 8px;
+            gap: 8px;
+        }
+
+        .quick-add-row input {
+            height: 38px;
+            font-size: 0.9em;
+        }
+
+        .items-table {
+            table-layout: fixed;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 8px;
+        }
+
+        .items-table thead {
+            background: #1f2937;
+        }
+
+        .items-table th {
+            padding: 7px 8px;
+            font-size: 0.72em;
+            white-space: nowrap;
+        }
+
+        .items-table td {
+            padding: 4px 6px;
+            font-size: 0.86em;
+            vertical-align: middle;
+        }
+
+        .items-table tbody tr:nth-child(even) {
+            background: #fbfdff;
+        }
+
+        .items-table tbody tr:hover {
+            background: #fff7ed;
+        }
+
+        .items-table input, .items-table select {
+            height: 30px;
+            padding: 4px 6px;
+            font-size: 0.9em;
+            border-radius: 6px;
+        }
+
+        .items-table th:nth-child(1), .items-table td:nth-child(1) { width: 34px; text-align: center; }
+        .items-table th:nth-child(2), .items-table td:nth-child(2) { width: 96px; }
+        .items-table th:nth-child(3), .items-table td:nth-child(3) { width: 92px; }
+        .items-table th:nth-child(4), .items-table td:nth-child(4) { width: 84px; }
+        .items-table th:nth-child(5), .items-table td:nth-child(5) { width: 110px; }
+        .items-table th:nth-child(6), .items-table td:nth-child(6) { width: auto; }
+        .items-table th:nth-child(7), .items-table td:nth-child(7) { width: 52px; text-align: center; }
+
+        .items-table td:nth-child(2) input { max-width: none !important; }
+
+        .price-cell {
+            font-size: 0.98em;
+            white-space: nowrap;
+            color: var(--gold-dark);
+        }
+
+        .items-table td.note-cell {
+            min-width: 0;
+        }
+
+        .note-cell input {
+            min-width: 100%;
+        }
+
+        .bottom-buttons {
+            margin-top: 8px;
+        }
+
+        .photos-section {
+            margin-top: 12px;
+            padding: 12px;
+        }
+
+        .photos-section h3 {
+            margin-bottom: 8px;
+            font-size: 0.92em;
+        }
+
+        .photo-grid {
+            gap: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 8px; padding-top: 10px; }
+            .container { padding: 10px; border-radius: 14px; }
+            .header-row { flex-direction: row; align-items: center; }
+            h1 { font-size: 1.02em; }
+            .market-price-header { font-size: 0.72em; padding: 5px 7px; }
+            .settings-grid { padding: 10px; }
+            .input-row { width: 100%; grid-template-columns: 1fr 1fr; }
+            .section-header > div { display: grid !important; grid-template-columns: 1fr 1fr; }
+            .section-header button { padding: 8px 7px; font-size: 0.78em; }
+            .summary-line { font-size: 0.82em; padding: 8px 9px; }
+
+            .items-table tbody tr {
+                padding: 6px;
+                margin-bottom: 6px;
+                border-radius: 9px;
+            }
+
+            .items-table td:nth-child(1) { width: 24px; margin-right: 4px; }
+            .items-table td:nth-child(2) { width: 22%; margin-right: 2%; }
+            .items-table td:nth-child(3) { width: 20%; margin-right: 2%; }
+            .items-table td:nth-child(5) { width: 31%; }
+            .items-table td:nth-child(7) { width: 34px; }
+            .items-table td:nth-child(2)::before { content: ''; }
+            .items-table input, .items-table select { height: 32px; padding: 5px 6px; }
+            .price-cell { font-size: 0.92em; }
+            .expand-btn { width: 30px; height: 30px; }
+            .items-table tbody tr.expanded td:nth-child(6)::before { content: 'Note'; }
+            .quick-add-row { display: grid; grid-template-columns: 1fr auto; }
+            .quick-add-row button { padding-left: 10px; padding-right: 10px; }
+        }
+
     </style>
 </head>
 <body>
@@ -1231,7 +1446,6 @@
                         <th>Karat</th>
                         <th>Purity %</th>
                         <th>Price</th>
-                        <th>Profit @ Spot</th>
                         <th>Note</th>
                         <th class="mobile-actions-header">More</th>
                     </tr>
@@ -1443,7 +1657,6 @@
                 </td>
                 <td><input type="number" step="0.01" min="0" max="100" value="41.67" oninput="calculateItem(${itemCount})" disabled></td>
                 <td class="price-cell">$0.00</td>
-                <td class="profit-cell">$0.00</td>
                 <td class="note-cell"><input type="text" placeholder="Note" oninput="updateNoteIndicator(${itemCount})" onchange="calculateTotal()"></td>
                 <td><button type="button" class="expand-btn" onclick="toggleRow(this)" aria-label="Expand item">▼</button></td>
             `;
@@ -1476,7 +1689,7 @@
 
         function updateNoteIndicator(itemId) {
             const row = document.getElementById(`item-${itemId}`);
-            const noteInput = row.cells[6].querySelector('input');
+            const noteInput = row.cells[5].querySelector('input');
             const priceCell = row.cells[4];
             
             if (noteInput.value.trim() !== '') {
@@ -1493,14 +1706,9 @@
             const spotPrice = parseFloat(document.getElementById('spotPrice').value) || 0;
             const percentSpot = parseFloat(document.getElementById('percentSpot').value) || 0;
 
-            const weightInOzt = convertToTroyOunces(weight, currentUnit);
-            const meltValue = weightInOzt * (purity / 100) * spotPrice;
             const price = calculateGoldValue(weight, purity, spotPrice, percentSpot, currentUnit);
-            const profit = meltValue - price;
 
             row.cells[4].textContent = formatMoney(price);
-            row.cells[5].textContent = formatMoney(profit);
-            row.cells[5].classList.toggle('negative', profit < 0);
             
             calculateTotal();
         }
@@ -1660,7 +1868,7 @@
             csv += `Total Grams,${totalGrams}\n`;
             csv += `Total Cost,${totalCost}\n\n`;
             
-            csv += `${document.getElementById('weightHeader').textContent},Karat,Purity %,Price,Profit @ Spot,Note\n`;
+            csv += `${document.getElementById('weightHeader').textContent},Karat,Purity %,Price,Note\n`;
             
             const tbody = document.getElementById('itemsBody');
             for (let row of tbody.rows) {
@@ -1668,12 +1876,10 @@
                 const karat = row.cells[2].querySelector('select').value;
                 const purity = row.cells[3].querySelector('input').value || '0';
                 const priceText = row.cells[4].textContent;
-                const profitText = row.cells[5].textContent;
-                const note = row.cells[6].querySelector('input').value || '';
+                const note = row.cells[5].querySelector('input').value || '';
                 const price = priceText.replace(/[$,]/g, '');
-                const profit = profitText.replace(/[$,]/g, '');
                 
-                csv += `${grams},${karat},${purity},${price},${profit},"${note.replace(/"/g, '""')}"\n`;
+                csv += `${grams},${karat},${purity},${price},"${note.replace(/"/g, '""')}"\n`;
             }
 
             // Create download link
@@ -1746,7 +1952,7 @@
                     const weight = row[0]?.trim() || '';
                     const karat  = row[1]?.trim() || '10K';
                     const purity = row[2]?.trim() || '41.67';
-                    const note   = row[5]?.trim() || row[4]?.trim() || '';
+                    const note   = row[4]?.trim() || '';
 
                     addItem();
                     const newRow = document.getElementById(`item-${itemCount}`);
@@ -1760,7 +1966,7 @@
                     purityInput.value = purity;
                     purityInput.disabled = karatSelect.value !== 'Custom';
 
-                    newRow.cells[6].querySelector('input').value = note;
+                    newRow.cells[5].querySelector('input').value = note;
                     calculateItem(itemCount);
                 }
 
@@ -1791,6 +1997,19 @@
             return result;
         }
 
+        function weightToOzt(weight, unit) {
+            const u = (unit || 'grams').toLowerCase();
+            if (u === 'dwt' || u === 'pennyweight') return Number(weight) / 20;
+            if (u === 'ozt' || u === 'oz' || u === 'toz') return Number(weight);
+            return Number(weight) / 31.1034768;
+        }
+
+        function oztToUnit(ozt, unit) {
+            if (unit === 'dwt') return ozt * 20;
+            if (unit === 'ozt') return ozt;
+            return ozt * 31.1034768;
+        }
+
         function quickAddItems() {
             const input = document.getElementById('quickAdd');
             const raw = input.value.trim();
@@ -1800,28 +2019,21 @@
             let added = 0;
 
             entries.forEach(entry => {
-                const match = entry.match(/([\d.]+)\s*(g|gram|grams|dwt|pennyweight|ozt|oz|toz)?\s*(9|10|14|18|21|22|24)\s*k/i);
+                const match = entry.match(/([\d.]+)\s*(g|gram|grams|dwt|pennyweight|ozt|oz|toz)?\s*(9|10|14|18|21|22|24)\s*k(?:\s+(.+))?$/i);
                 if (!match) return;
 
-                const weight = match[1];
+                const originalWeight = parseFloat(match[1]);
                 const parsedUnit = (match[2] || currentUnit).toLowerCase();
                 const karat = `${match[3]}K`;
+                const note = match[4] || '';
 
-                if (parsedUnit === 'dwt' || parsedUnit === 'pennyweight') {
-                    document.querySelector('input[name="unit"][value="dwt"]').checked = true;
-                    handleUnitChange();
-                } else if (parsedUnit === 'ozt' || parsedUnit === 'oz' || parsedUnit === 'toz') {
-                    document.querySelector('input[name="unit"][value="ozt"]').checked = true;
-                    handleUnitChange();
-                } else if (parsedUnit === 'g' || parsedUnit === 'gram' || parsedUnit === 'grams') {
-                    document.querySelector('input[name="unit"][value="grams"]').checked = true;
-                    handleUnitChange();
-                }
+                const weightForCurrentUnit = oztToUnit(weightToOzt(originalWeight, parsedUnit), currentUnit);
 
                 addItem();
                 const row = document.getElementById(`item-${itemCount}`);
-                row.cells[1].querySelector('input').value = weight;
+                row.cells[1].querySelector('input').value = Number(weightForCurrentUnit.toFixed(3));
                 row.cells[2].querySelector('select').value = karat;
+                row.cells[5].querySelector('input').value = note;
                 handleKaratChange(itemCount);
                 added++;
             });
@@ -1911,7 +2123,7 @@
                         weight: row.cells[1].querySelector('input').value,
                         karat:  row.cells[2].querySelector('select').value,
                         purity: row.cells[3].querySelector('input').value,
-                        note:   row.cells[6].querySelector('input').value
+                        note:   row.cells[5].querySelector('input').value
                     });
                 });
 
@@ -1971,7 +2183,7 @@
                             purityInput.disabled = true;
                             purityInput.value = item.purity;
                         }
-                        row.cells[6].querySelector('input').value = item.note || '';
+                        row.cells[5].querySelector('input').value = item.note || '';
                         calculateItem(itemCount);
                     });
                 }
