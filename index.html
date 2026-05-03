@@ -45,16 +45,44 @@
             .sig-box { border-top: 1px solid #000; padding-top: 8px; text-align: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
         }
 
+        /* FIXED UI GRID */
         .header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
         .spot-badge { background: #eef2ff; color: var(--primary); padding: 5px 12px; border-radius: 50px; font-weight: 700; font-size: 0.8rem; }
         .totals-banner { background: var(--primary); color: white; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .total-val { font-size: 1.3rem; font-weight: 900; }
-        .grid-settings { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 10px; }
-        .input-group { display: flex; flex-direction: column; gap: 4px; }
+        
+        /* THE FIX: Improved Grid handling for mobile responsiveness */
+        .grid-settings { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-top: 10px; 
+        }
+        @media (max-width: 480px) {
+            .grid-settings { grid-template-columns: 1fr; }
+        }
+
+        .input-group { display: flex; flex-direction: column; gap: 4px; width: 100%; }
         label { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
-        input, select, textarea { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; width: 100%; font-weight: 600; outline: none; }
+        input, select, textarea { 
+            padding: 12px; 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            width: 100%; 
+            font-weight: 600; 
+            outline: none; 
+            -webkit-appearance: none; /* Fixes iOS date input styling */
+        }
+        
         .input-warning { background-color: var(--highlight-gold) !important; border-color: #fcd34d !important; }
         .quick-add { background: #eff6ff; padding: 12px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; margin-bottom: 20px; border: 1px solid #bfdbfe; }
+        
+        @media (max-width: 600px) {
+            .quick-add { grid-template-columns: 1fr 1fr; }
+            .btn-add { grid-column: span 2; }
+        }
+
         .btn-add { background: #10b981; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
         .item-card { border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 12px; background: white; transition: border 0.2s; }
         .item-card.editing { border: 2px solid var(--primary); background: #fafafa; }
@@ -80,7 +108,7 @@
             </div>
             <div style="text-align: right;">
                 <h2 id="pBuyerLabel" style="color: var(--primary);">STORE NAME</h2>
-                <p id="pDateLabel">May 03, 2026</p>
+                <p id="pDateLabel"></p>
             </div>
         </div>
 
@@ -217,7 +245,7 @@
         const unit = document.getElementById('unit').value;
         const unitLabelText = unit === 'ozt' ? 'ozt' : (unit === 'dwt' ? 'dwt' : 'g');
         
-        // Sync Print Header Info
+        // Sync Print Info
         document.getElementById('pDateLabel').innerText = document.getElementById('docDate').value;
         document.getElementById('pBuyerLabel').innerText = document.getElementById('buyer').value || 'YOUR BUSINESS';
         document.getElementById('pSellerLabel').innerText = document.getElementById('seller').value || 'Walk-in Customer';
@@ -240,7 +268,6 @@
             
             tW += rec.weight; tC += price;
 
-            // App Card
             const div = document.createElement('div');
             div.className = `item-card ${rec.isEditing ? 'editing' : ''}`;
             div.innerHTML = `<div class="card-view" onclick="toggleEdit(${rec.id})">
@@ -261,7 +288,6 @@
             </div>`;
             list.appendChild(div);
 
-            // Print Row
             printBody.innerHTML += `<tr>
                 <td>${rec.img ? `<img src="${rec.img}" class="receipt-img">` : 'N/A'}</td>
                 <td>${rec.karat} Gold ${rec.notes ? `<br><small>${rec.notes}</small>` : ''}</td>
@@ -274,7 +300,6 @@
         document.getElementById('totalW').innerText = tW.toFixed(2);
         document.getElementById('uLabel').innerText = unitLabelText;
         document.getElementById('totalC').innerText = `$${tC.toFixed(2)}`;
-        
         document.getElementById('pTotalWeightLabel').innerText = `${tW.toFixed(2)}${unitLabelText}`;
         document.getElementById('pTotalCashLabel').innerText = `$${tC.toFixed(2)}`;
         
