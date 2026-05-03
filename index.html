@@ -43,14 +43,13 @@
         .header h2 { color: var(--primary); font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
         .spot-badge { background: var(--primary); color: var(--accent-gold); padding: 6px 14px; border-radius: 50px !important; font-weight: 800; font-size: 0.75rem; cursor: pointer; border: 1px solid var(--accent-gold); }
         
-        .totals-banner { background: var(--primary); color: white; padding: 18px; border-radius: 12px !important; display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 5px solid var(--accent-gold); }
+        .totals-banner { background: var(--primary); color: white; padding: 18px; border-radius: 12px !important; display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 5px solid var(--accent-gold); align-items: center; }
         .total-val { font-size: 1.6rem; font-weight: 900; color: var(--accent-gold); font-family: ui-monospace, monospace; }
 
-        /* GRID SETTINGS */
         .grid-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         
-        /* SPECIFIC ROW OVERRIDE FOR DATE & NAME */
-        .date-name-row { grid-template-columns: 130px 1fr !important; }
+        /* FIX: Narrow Date Field & Wide Seller Name */
+        .date-name-row { grid-template-columns: 120px 1fr !important; }
 
         .input-group { display: flex; flex-direction: column; gap: 4px; }
         
@@ -118,7 +117,6 @@
 
     <details style="margin-bottom: 15px;">
         <summary style="cursor:pointer; font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase;">Transaction Details</summary>
-        <!-- ADJUSTED ROW FOR DATE AND NAME -->
         <div class="grid-settings date-name-row">
             <div class="input-group"><label>Date</label><input type="date" id="docDate" oninput="syncHeader()"></div>
             <div class="input-group"><label>Seller Name</label><input type="text" id="seller" placeholder="Customer Name" oninput="syncHeader()"></div>
@@ -138,7 +136,7 @@
     </details>
 
     <div class="totals-banner">
-        <div style="font-weight: 800;">
+        <div style="flex-grow: 1; font-weight: 800;">
             <p style="font-size: 0.65rem; opacity: 0.8; letter-spacing: 1px;">TOTAL WEIGHT</p>
             <span id="totalW" style="font-size: 1.4rem;">0.00</span> <span id="uLabel">g</span>
         </div>
