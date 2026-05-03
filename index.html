@@ -17,63 +17,66 @@
             --warning-yellow: #fefce8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, system-ui, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, system-ui, sans-serif; border-radius: 0 !important; }
         body { background: var(--bg); padding: 10px; padding-bottom: 60px; }
-        .container { max-width: 700px; margin: 0 auto; background: var(--card); border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .container { max-width: 700px; margin: 0 auto; background: var(--card); border-radius: 20px !important; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
 
         /* PRINT STYLES */
         #printHeader { display: none; }
         @media print {
             .quick-add, .btn-action, #bulkBar, details, .checkbox-ui, .edit-drawer, .header, .btn-photo, #recordsList { display: none !important; }
             #printHeader { display: block; }
-            .container { box-shadow: none; padding: 0; max-width: 100%; border-radius: 0; }
+            .container { box-shadow: none; padding: 0; max-width: 100%; border-radius: 0 !important; }
             body { background: white; padding: 0; }
             .receipt-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
             .receipt-table th { background: #f8fafc; border-bottom: 2px solid #000; text-align: left; padding: 10px; font-size: 0.7rem; text-transform: uppercase; }
             .receipt-table td { padding: 10px; border-bottom: 1px solid #eee; font-size: 0.8rem; vertical-align: middle; }
-            .receipt-img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #eee; }
+            .receipt-img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px !important; border: 1px solid #eee; }
             .sig-section { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 60px; }
             .sig-box { border-top: 1px solid #000; padding-top: 8px; font-size: 0.75rem; font-weight: bold; text-align: center; }
-            .meta-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 15px; background: #f9fafb; padding: 10px; border-radius: 8px; border: 1px solid #eee; }
+            .meta-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 15px; background: #f9fafb; padding: 10px; border-radius: 8px !important; border: 1px solid #eee; }
             .meta-item label { font-size: 0.6rem; color: #64748b; display: block; font-weight: 800; }
             .meta-item span { font-size: 0.9rem; font-weight: 700; }
         }
 
         .header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 3px solid var(--accent-gold); padding-bottom: 10px; align-items: center; }
         .header h2 { color: var(--primary); font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
-        .spot-badge { background: var(--primary); color: var(--accent-gold); padding: 6px 14px; border-radius: 50px; font-weight: 800; font-size: 0.75rem; cursor: pointer; border: 1px solid var(--accent-gold); }
+        .spot-badge { background: var(--primary); color: var(--accent-gold); padding: 6px 14px; border-radius: 50px !important; font-weight: 800; font-size: 0.75rem; cursor: pointer; border: 1px solid var(--accent-gold); }
         
-        .totals-banner { background: var(--primary); color: white; padding: 18px; border-radius: 12px; display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 5px solid var(--accent-gold); }
+        .totals-banner { background: var(--primary); color: white; padding: 18px; border-radius: 12px !important; display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 5px solid var(--accent-gold); }
         .total-val { font-size: 1.6rem; font-weight: 900; color: var(--accent-gold); font-family: ui-monospace, monospace; }
 
         .grid-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        /* ASYMMETRICAL DATE ROW */
+        .date-row { grid-template-columns: 0.5fr 1fr !important; }
+
         .input-group { display: flex; flex-direction: column; gap: 4px; }
         
         label { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
-        input, select, textarea { padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; width: 100%; font-weight: 600; outline: none; }
+        input, select, textarea { padding: 12px; border: 1px solid var(--border); border-radius: 8px !important; font-size: 1rem; width: 100%; font-weight: 600; outline: none; }
         input:focus { border-color: var(--accent-gold); }
         input:disabled { background: #f8fafc; color: #94a3b8; cursor: not-allowed; }
         
-        .quick-add { background: #f1f5f9; padding: 15px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; margin-bottom: 20px; border: 1px solid var(--border); align-items: end; }
-        .btn-add { background: var(--primary); color: var(--accent-gold); border: 2px solid var(--accent-gold); padding: 12px; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; }
+        .quick-add { background: #f1f5f9; padding: 15px; border-radius: 12px !important; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; margin-bottom: 20px; border: 1px solid var(--border); align-items: end; }
+        .btn-add { background: var(--primary); color: var(--accent-gold); border: 2px solid var(--accent-gold); padding: 12px; border-radius: 8px !important; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; }
 
-        .item-card { border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 12px; background: white; transition: all 0.2s; }
+        .item-card { border: 1px solid var(--border); border-radius: 15px !important; padding: 15px; margin-bottom: 12px; background: white; transition: all 0.2s; }
         .item-card.editing { border: 2px solid var(--accent-gold); box-shadow: 0 4px 12px rgba(234, 179, 8, 0.1); }
         .card-view { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .card-left { display: flex; align-items: center; gap: 12px; }
         
-        .karat-badge { background: var(--primary); color: var(--accent-gold); padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 800; min-width: 45px; text-align: center; border: 1px solid var(--accent-gold); }
+        .karat-badge { background: var(--primary); color: var(--accent-gold); padding: 6px 10px; border-radius: 6px !important; font-size: 0.8rem; font-weight: 800; min-width: 45px; text-align: center; border: 1px solid var(--accent-gold); }
         .item-text { font-size: 1.1rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
         .item-price { color: var(--price-gold); font-size: 1.2rem; font-weight: 900; font-family: monospace; }
         
-        .thumb-preview { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; background: #f1f5f9; border: 1px solid var(--border); }
+        .thumb-preview { width: 45px; height: 45px; border-radius: 6px !important; object-fit: cover; background: #f1f5f9; border: 1px solid var(--border); }
         .checkbox-ui { width: 22px; height: 22px; cursor: pointer; accent-color: var(--accent-gold); }
 
         .edit-drawer { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
         .item-card.editing .edit-drawer { display: block; }
-        .btn-photo { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-bottom: 2px solid var(--accent-gold); }
-        .btn-action { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        #bulkBar { display: none; justify-content: space-between; align-items: center; background: #fee2e2; padding: 12px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #fecaca; }
+        .btn-photo { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px !important; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-bottom: 2px solid var(--accent-gold); }
+        .btn-action { width: 100%; padding: 15px; border-radius: 12px !important; border: none; font-weight: 800; cursor: pointer; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        #bulkBar { display: none; justify-content: space-between; align-items: center; background: #fee2e2; padding: 12px; border-radius: 12px !important; margin-bottom: 15px; border: 1px solid #fecaca; }
     </style>
 </head>
 <body>
@@ -113,9 +116,11 @@
 
     <details style="margin-bottom: 15px;">
         <summary style="cursor:pointer; font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase;">Transaction Details</summary>
-        <div class="grid-settings">
+        <div class="grid-settings date-row">
             <div class="input-group"><label>Date</label><input type="date" id="docDate" oninput="syncHeader()"></div>
             <div class="input-group"><label>Seller Name</label><input type="text" id="seller" placeholder="Customer Name" oninput="syncHeader()"></div>
+        </div>
+        <div class="grid-settings">
             <div class="input-group"><label>Spot Price</label><input type="number" id="spotPrice" oninput="recalc()"></div>
             <div class="input-group"><label>% of Spot</label><input type="number" id="percent" value="90" oninput="recalc()"></div>
             <div class="input-group"><label>Unit</label>
@@ -151,7 +156,7 @@
 
     <div id="bulkBar">
         <span id="bulkCount" style="font-weight: 800; color: var(--danger);">0 Selected</span>
-        <button style="background: var(--danger); color: white; border:none; padding: 5px 10px; border-radius: 5px; font-weight:700;" onclick="deleteSelected()">Delete Selected</button>
+        <button style="background: var(--danger); color: white; border:none; padding: 5px 10px; border-radius: 5px !important; font-weight:700;" onclick="deleteSelected()">Delete Selected</button>
     </div>
 
     <div id="recordsList"></div>
