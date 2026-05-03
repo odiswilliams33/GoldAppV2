@@ -48,8 +48,14 @@
 
         .grid-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         
-        /* FIX: Narrow Date Field & Wide Seller Name */
-        .date-name-row { grid-template-columns: 120px 1fr !important; }
+        /* UPDATED: FLEXBOX FIX FOR OVERLAP */
+        .date-name-row { 
+            display: flex !important; 
+            gap: 12px; 
+            align-items: flex-end;
+        }
+        .date-group { width: 130px; flex-shrink: 0; }
+        .name-group { flex-grow: 1; }
 
         .input-group { display: flex; flex-direction: column; gap: 4px; }
         
@@ -115,11 +121,11 @@
         <div class="spot-badge" id="livePrice" onclick="fetchSpot()">Spot: $...</div>
     </div>
 
-    <details style="margin-bottom: 15px;">
+    <details style="margin-bottom: 15px;" open>
         <summary style="cursor:pointer; font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase;">Transaction Details</summary>
         <div class="grid-settings date-name-row">
-            <div class="input-group"><label>Date</label><input type="date" id="docDate" oninput="syncHeader()"></div>
-            <div class="input-group"><label>Seller Name</label><input type="text" id="seller" placeholder="Customer Name" oninput="syncHeader()"></div>
+            <div class="input-group date-group"><label>Date</label><input type="date" id="docDate" oninput="syncHeader()"></div>
+            <div class="input-group name-group"><label>Seller Name</label><input type="text" id="seller" placeholder="Customer Name" oninput="syncHeader()"></div>
         </div>
         <div class="grid-settings">
             <div class="input-group"><label>Spot Price</label><input type="number" id="spotPrice" oninput="recalc()"></div>
