@@ -13,7 +13,7 @@
             --danger: #ef4444;
             --dark-badge: #334155;
             --price-blue: #4338ca;
-            --highlight-gold: #fef3c7; 
+            --highlight-gold: #fefce8; /* Light yellow for input warning */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, system-ui, sans-serif; }
@@ -48,7 +48,6 @@
             align-items: center;
             margin-bottom: 20px; 
         }
-        .totals-banner.alt-unit-active { background: #b45309; } 
         .total-val { font-size: 1.3rem; font-weight: 900; }
 
         .grid-settings { 
@@ -59,9 +58,10 @@
         }
         .input-group { display: flex; flex-direction: column; gap: 4px; }
         label { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
-        input, select, textarea { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; width: 100%; font-weight: 600; }
+        input, select, textarea { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; width: 100%; font-weight: 600; outline: none; transition: background 0.2s; }
         
-        .unit-highlight { background-color: var(--highlight-gold) !important; border-color: #f59e0b !important; color: #92400e !important; }
+        /* UNIT HIGHLIGHT FOR THE INPUT FIELD */
+        .input-warning { background-color: var(--highlight-gold) !important; border-color: #fcd34d !important; }
 
         .quick-add { background: #eff6ff; padding: 12px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; margin-bottom: 20px; border: 1px solid #bfdbfe; }
         .btn-add { background: #10b981; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
@@ -123,12 +123,15 @@
     </details>
 
     <div class="totals-banner" id="banner">
-        <div id="weightDisplay">Total: <span id="totalW">0.00</span> <span id="uLabel">g</span></div>
+        <div>Total: <span id="totalW">0.00</span> <span id="uLabel">g</span></div>
         <div id="totalC" class="total-val">$0.00</div>
     </div>
 
     <div class="quick-add">
-        <div class="input-group"><label>Weight</label><input type="number" id="qWeight" placeholder="0.00"></div>
+        <div class="input-group">
+            <label>Weight</label>
+            <input type="number" id="qWeight" placeholder="0.00">
+        </div>
         <div class="input-group">
             <label>Karat</label>
             <select id="qKarat" onchange="syncPurity('qKarat', 'qPurity')">
@@ -200,19 +203,17 @@
         const pct = parseFloat(document.getElementById('percent').value) / 100 || 0;
         const unit = document.getElementById('unit').value;
         const list = document.getElementById('recordsList');
-        const banner = document.getElementById('banner');
-        const weightBox = document.getElementById('weightDisplay');
         const unitLabel = document.getElementById('uLabel');
+        const weightInput = document.getElementById('qWeight');
         
         const isGram = unit === 'grams';
         unitLabel.innerText = unit === 'ozt' ? 'ozt' : (unit === 'dwt' ? 'dwt' : 'g');
         
+        // Highlight logic only on the WEIGHT INPUT field
         if(!isGram) {
-            banner.classList.add('alt-unit-active');
-            weightBox.classList.add('unit-highlight');
+            weightInput.classList.add('input-warning');
         } else {
-            banner.classList.remove('alt-unit-active');
-            weightBox.classList.remove('unit-highlight');
+            weightInput.classList.remove('input-warning');
         }
 
         list.innerHTML = '';
