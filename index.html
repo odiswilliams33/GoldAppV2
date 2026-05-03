@@ -47,7 +47,6 @@
             justify-content: space-between; 
             align-items: center;
             margin-bottom: 20px; 
-            transition: background 0.3s;
         }
         .totals-banner.alt-unit-active { background: #b45309; } 
         .total-val { font-size: 1.3rem; font-weight: 900; }
@@ -62,18 +61,21 @@
         label { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
         input, select, textarea { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; width: 100%; font-weight: 600; }
         
-        /* DYNAMIC UNIT HIGHLIGHT */
         .unit-highlight { background-color: var(--highlight-gold) !important; border-color: #f59e0b !important; color: #92400e !important; }
 
         .quick-add { background: #eff6ff; padding: 12px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; margin-bottom: 20px; border: 1px solid #bfdbfe; }
         .btn-add { background: #10b981; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
-        .item-card { border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 12px; background: white; }
+        .item-card { border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 12px; background: white; transition: border 0.2s; }
+        .item-card.editing { border: 2px solid var(--primary); background: #fafafa; }
         .card-view { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .card-left { display: flex; align-items: center; gap: 12px; }
         .item-price { color: var(--price-blue); font-size: 1.2rem; font-weight: 900; }
+        
         .thumb-preview { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; background: #f1f5f9; }
-
+        .edit-drawer { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
+        .item-card.editing .edit-drawer { display: block; }
+        .btn-photo { background: #6366f1; color: white; border: none; padding: 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
         .btn-action { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; margin-top: 10px; }
         
         @media (max-width: 500px) {
@@ -147,6 +149,21 @@
     let records = [];
     const karatMap = { 10: 41.67, 14: 58.33, 18: 75.0, 22: 91.67, 24: 99.99 };
 
+    async function fetchSpot() {
+        try {
+            const r = await fetch('https://api.metals.dev/v1/latest?api_key=SDLIO6XALG4MJ66HNTWF1196HNTWF&currency=USD&unit=toz');
+            const d = await r.json();
+            if(d && d.metals && d.metals.gold) {
+                const val = d.metals.gold;
+                document.getElementById('livePrice').innerText = `Spot: $${val.toFixed(2)}`;
+                if(!document.getElementById('spotPrice').value) {
+                    document.getElementById('spotPrice').value = val.toFixed(2);
+                }
+                recalc();
+            }
+        } catch(e) { document.getElementById('livePrice').innerText = "Spot: Check API"; }
+    }
+
     function syncPurity(kId, pId) {
         const kSelect = document.getElementById(kId);
         const pInput = document.getElementById(pId);
@@ -161,6 +178,23 @@
         document.getElementById('pBuyer').innerText = document.getElementById('buyer').value || 'Business Name';
     }
 
+    function updateRecSilent(id, field, value) {
+        const rec = records.find(r => r.id === id);
+        rec[field] = (field === 'notes') ? value : parseFloat(value);
+        recalc();
+    }
+
+    function toggleEdit(id) {
+        records.forEach(r => r.isEditing = (r.id === id ? !r.isEditing : false));
+        recalc();
+    }
+
+    function handleImage(id, input) {
+        const reader = new FileReader();
+        reader.onload = (e) => { records.find(r => r.id === id).img = e.target.result; recalc(); };
+        if(input.files[0]) reader.readAsDataURL(input.files[0]);
+    }
+
     function recalc() {
         const spot = parseFloat(document.getElementById('spotPrice').value) || 0;
         const pct = parseFloat(document.getElementById('percent').value) / 100 || 0;
@@ -170,7 +204,6 @@
         const weightBox = document.getElementById('weightDisplay');
         const unitLabel = document.getElementById('uLabel');
         
-        // UNIT LOGIC: RESTORE OZT AND GRAM HIGHLIGHT
         const isGram = unit === 'grams';
         unitLabel.innerText = unit === 'ozt' ? 'ozt' : (unit === 'dwt' ? 'dwt' : 'g');
         
@@ -188,18 +221,14 @@
         printBody.innerHTML = '';
 
         records.forEach(rec => {
-            let conv = 31.1035; // Default for grams/ozt
-            if(unit === 'dwt') conv = 20;
-            
-            // If the unit is OZT, the conversion from OZT to Troy Ounces is 1:1, 
-            // but the spot price is per Troy Ounce, so we treat weight as pure ounces.
+            let conv = unit === 'dwt' ? 20 : 31.1035;
             let price = (unit === 'ozt') ? (rec.weight * (rec.purity/100) * spot * pct) 
                                          : (rec.weight / conv) * (rec.purity / 100) * spot * pct;
             
             tW += rec.weight; tC += price;
 
             const div = document.createElement('div');
-            div.className = 'item-card';
+            div.className = `item-card ${rec.isEditing ? 'editing' : ''}`;
             div.innerHTML = `<div class="card-view" onclick="toggleEdit(${rec.id})">
                 <div class="card-left">
                     <div class="karat-badge" style="background:var(--dark-badge);color:white;padding:5px;border-radius:5px;font-size:0.8rem;font-weight:800;">${rec.karat}</div>
@@ -207,12 +236,20 @@
                     <span style="font-weight:700;">${rec.weight}${unitLabel.innerText}</span>
                 </div>
                 <div class="item-price">$${price.toFixed(2)}</div>
+            </div>
+            <div class="edit-drawer" onclick="event.stopPropagation()">
+                <div class="grid-settings">
+                    <div class="input-group"><label>Weight</label><input type="number" step="0.01" value="${rec.weight}" oninput="updateRecSilent(${rec.id}, 'weight', this.value)"></div>
+                    <div class="input-group"><label>Photo</label><button class="btn-photo" onclick="document.getElementById('img-${rec.id}').click()">Photo</button></div>
+                </div>
+                <input type="file" id="img-${rec.id}" style="display:none" accept="image/*" onchange="handleImage(${rec.id}, this)">
+                <textarea style="margin-top:10px" placeholder="Notes..." oninput="updateRecSilent(${rec.id}, 'notes', this.value)">${rec.notes || ''}</textarea>
             </div>`;
             list.appendChild(div);
 
             printBody.innerHTML += `<tr>
                 <td>${rec.img ? `<img src="${rec.img}" class="receipt-img">` : 'No Photo'}</td>
-                <td>${rec.karat} Gold</td>
+                <td>${rec.karat} Gold ${rec.notes ? `- ${rec.notes}` : ''}</td>
                 <td>${rec.weight}${unitLabel.innerText}</td>
                 <td>${rec.purity}%</td>
                 <td style="text-align:right;">$${price.toFixed(2)}</td>
@@ -231,7 +268,7 @@
         const p = parseFloat(document.getElementById('qPurity').value);
         const k = document.getElementById('qKarat').value;
         if(!w) return;
-        records.push({ id: Date.now(), weight: w, purity: p, karat: k==='custom'?'Custom':k+'K', img: null });
+        records.push({ id: Date.now(), weight: w, purity: p, karat: k==='custom'?'Custom':k+'K', img: null, isEditing: false, notes: '' });
         document.getElementById('qWeight').value = '';
         recalc();
     }
@@ -242,7 +279,7 @@
         document.getElementById('docDate').valueAsDate = new Date();
         const saved = localStorage.getItem('goldState_stable');
         if(saved) records = JSON.parse(saved);
-        recalc();
+        fetchSpot();
     };
 </script>
 </body>
