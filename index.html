@@ -553,6 +553,57 @@
             display: none;
         }
 
+        /* Quick Add Bar */
+        .quick-add-bar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 16px;
+            background: #f0f4ff;
+            border-radius: 10px;
+            border: 1px solid #c7d2fe;
+        }
+
+        .quick-add-bar input[type="number"] {
+            padding: 9px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            background: white;
+        }
+
+        .quick-add-bar input#qaWeight { width: 100px; }
+        .quick-add-bar input#qaPurity { width: 90px; }
+
+        .quick-add-bar select {
+            padding: 9px 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            background: white;
+        }
+
+        .quick-add-bar input:disabled {
+            background: #f1f5f9;
+            color: #94a3b8;
+        }
+
+        /* Hide display-only cell and edit button on desktop */
+        .display-cell, .item-edit-btn { display: none; }
+
+        @media (max-width: 768px) {
+            .quick-add-bar {
+                gap: 8px;
+                padding: 10px 12px;
+                flex-wrap: nowrap;
+            }
+            .quick-add-bar input#qaWeight { width: 70px; }
+            .quick-add-bar input#qaPurity { width: 72px; }
+            .quick-add-bar select { min-width: 72px; }
+            .quick-add-bar .add-btn { white-space: nowrap; padding: 9px 14px; }
+        }
+
         .pdf-btn {
             background: #b7791f;
             color: white;
@@ -569,6 +620,92 @@
             background: #975a16;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(183, 121, 31, 0.4);
+        }
+
+        /* ── SUMMARY VIEW ── */
+        .summary-toggle-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.2s;
+        }
+        .summary-toggle-btn:hover { background: #4338ca; }
+        .summary-toggle-btn.active { background: #059669; }
+
+        #summaryList {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .summary-row {
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            gap: 10px;
+        }
+        .summary-row:hover { background: #eef2ff; border-color: #a5b4fc; }
+
+        .sr-index {
+            font-size: 0.72em;
+            color: #94a3b8;
+            font-weight: 700;
+            min-width: 16px;
+        }
+        .sr-weight {
+            font-weight: 700;
+            color: #2d3748;
+            min-width: 60px;
+            font-size: 0.95em;
+        }
+        .sr-karat {
+            background: #2d3748;
+            color: white;
+            border-radius: 5px;
+            padding: 2px 8px;
+            font-size: 0.78em;
+            font-weight: 700;
+            min-width: 36px;
+            text-align: center;
+        }
+        .sr-purity {
+            color: #64748b;
+            font-size: 0.82em;
+            min-width: 48px;
+        }
+        .sr-price {
+            font-weight: 700;
+            color: #4f46e5;
+            font-size: 1em;
+            min-width: 85px;
+            text-align: right;
+            margin-left: auto;
+        }
+        .sr-note {
+            color: #64748b;
+            font-size: 0.82em;
+            flex: 1;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 140px;
+        }
+        .sr-edit {
+            color: #cbd5e0;
+            font-size: 0.85em;
+            margin-left: 6px;
         }
 
         @media print {
@@ -599,7 +736,9 @@
             .bottom-buttons,
             .photo-slot input[type="file"],
             .remove-photo,
-            .summary-line > span {
+            .summary-line > span,
+            #summaryToggleBtn,
+            #summaryView {
                 display: none !important;
             }
 
@@ -694,9 +833,7 @@
 
             /* Hide checkbox column */
             .items-table th:first-child,
-            .items-table td:first-child,
-            .items-table th:last-child,
-            .items-table td:last-child {
+            .items-table td:first-child {
                 display: none !important;
             }
 
@@ -775,40 +912,6 @@
             border-radius: 6px;
             font-size: 0.95em;
             width: 100%;
-        }
-
-        .weight-input-warning {
-            background: #fff3cd !important;
-            border-color: #f6ad55 !important;
-        }
-
-        .expand-btn {
-            display: none;
-            background: #edf2f7;
-            color: #4c51bf;
-            border: 1px solid #cbd5e0;
-            border-radius: 999px;
-            width: 34px;
-            height: 34px;
-            font-weight: 800;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-
-        .quick-add-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 14px;
-            align-items: stretch;
-        }
-
-        .quick-add-row input {
-            flex: 1;
-        }
-
-        .quick-add-row button {
-            white-space: nowrap;
         }
 
         @media (max-width: 768px) {
@@ -918,421 +1021,68 @@
                 font-size: 0.9em;
             }
 
-            /* Hide table headers on mobile */
-            .items-table thead {
-                display: none;
-            }
-
-            /* Make table body display as cards */
-            .items-table,
-            .items-table tbody {
-                display: block;
-                width: 100%;
-            }
+            /* Summary-style display rows on mobile */
+            .items-table thead { display: none; }
+            .items-table, .items-table tbody { display: block; width: 100%; }
 
             .items-table tbody tr {
-                display: block;
-                margin-bottom: 8px;
-                padding: 8px;
-                background: #f7fafc;
-                border-radius: 8px;
-                border: 1px solid #e2e8f0;
-                position: relative;
-            }
-
-            .items-table tbody tr:hover {
-                background: #edf2f7;
-            }
-
-            .items-table td {
-                display: none; /* Hide all by default */
-                padding: 0;
-                border: none;
-                margin-bottom: 8px;
-            }
-
-            /* Always show checkbox */
-            .items-table td:nth-child(1) {
-                display: inline-block;
-                width: 30px;
-                vertical-align: middle;
-                margin-right: 8px;
-                margin-bottom: 0;
-            }
-
-            /* Collapsed view: Show Weight, Karat, Price, and expand button on one line */
-            .items-table td:nth-child(2),
-            .items-table td:nth-child(3),
-            .items-table td:nth-child(5),
-            .items-table td:nth-child(7) {
-                display: inline-block;
-                vertical-align: middle;
-            }
-
-            .items-table td:nth-child(2) {
-                width: 22%;
-                margin-right: 3%;
-            }
-
-            .items-table td:nth-child(2)::before {
-                content: 'g: ';
-                font-size: 0.7em;
-                color: #718096;
-                font-weight: 600;
-                margin-right: 2px;
-            }
-
-            .items-table td:nth-child(3) {
-                width: 20%;
-                margin-right: 3%;
-            }
-
-            .items-table td:nth-child(5) {
-                width: 30%;
-                font-size: 1em;
-                font-weight: 600;
-            }
-
-            .items-table td:nth-child(7) {
-                width: 38px;
-                margin-left: 2px;
-            }
-
-            /* Expanded state - show all fields */
-            .items-table tbody tr.expanded td {
-                display: block;
-                width: 100% !important;
-                margin-bottom: 8px;
-                margin-right: 0 !important;
-            }
-
-            .items-table tbody tr.expanded td:nth-child(1) {
-                display: block;
-                width: auto !important;
-                margin-bottom: 8px;
-            }
-
-            .items-table tbody tr.expanded td:nth-child(2),
-            .items-table tbody tr.expanded td:nth-child(3),
-            .items-table tbody tr.expanded td:nth-child(4),
-            .items-table tbody tr.expanded td:nth-child(5),
-            .items-table tbody tr.expanded td:nth-child(6),
-            .items-table tbody tr.expanded td:nth-child(7),
-            .items-table tbody tr.expanded td:nth-child(7) {
-                display: block;
-                width: 100% !important;
-                margin-right: 0 !important;
-                margin-bottom: 8px;
-            }
-
-            /* Add labels before each field when expanded */
-            .items-table tbody tr.expanded td:nth-child(2)::before {
-                content: 'Grams';
-                display: block;
-                font-size: 0.7em;
-                color: #718096;
-                margin-bottom: 2px;
-                font-weight: 600;
-            }
-
-            .items-table tbody tr.expanded td:nth-child(3)::before {
-                content: 'Karat';
-                display: block;
-                font-size: 0.7em;
-                color: #718096;
-                margin-bottom: 2px;
-                font-weight: 600;
-            }
-
-            .items-table tbody tr.expanded td:nth-child(4)::before {
-                content: 'Purity';
-                display: block;
-                font-size: 0.7em;
-                color: #718096;
-                margin-bottom: 2px;
-                font-weight: 600;
-            }
-
-            .items-table tbody tr.expanded td:nth-child(5)::before {
-                content: 'Price';
-                display: block;
-                font-size: 0.7em;
-                color: #718096;
-                margin-bottom: 2px;
-                font-weight: 600;
-            }
-
-            .items-table tbody tr.expanded td:nth-child(6)::before {
-                content: 'Note';
-                display: block;
-                font-size: 0.7em;
-                color: #718096;
-                margin-bottom: 2px;
-                font-weight: 600;
-            }
-
-            .items-table input,
-            .items-table select {
-                width: 100%;
-                font-size: 16px; /* Changed from 14px to prevent iOS zoom */
-                padding: 8px 10px;
-            }
-
-            .karat-select {
-                font-size: 16px; /* Changed from 14px to prevent iOS zoom */
-                padding: 8px 10px;
-            }
-
-            .price-cell {
-                font-size: 1em;
-            }
-
-
-            .quick-add-row {
-                flex-direction: column;
-            }
-
-            .expand-btn {
-                display: inline-flex;
+                display: flex;
                 align-items: center;
+                gap: 8px;
+                margin-bottom: 8px;
+                padding: 11px 14px;
+                background: #f8fafc;
+                border-radius: 10px;
+                border: 1px solid #e2e8f0;
+            }
+
+            .items-table tbody tr:hover { background: #eef2ff; border-color: #a5b4fc; }
+            .items-table td { display: none; padding: 0; border: none; }
+            .items-table td:nth-child(1) { display: flex; align-items: center; flex: 0 0 20px; }
+            .items-table td.display-cell { display: flex; flex: 1; align-items: center; gap: 8px; min-width: 0; }
+
+            .item-display-row { display: flex; align-items: center; flex: 1; gap: 7px; min-width: 0; overflow: hidden; }
+            .idr-num { color: #94a3b8; font-size: 0.78em; font-weight: 700; min-width: 14px; }
+            .idr-weight { font-weight: 700; color: #2d3748; font-size: 0.95em; white-space: nowrap; }
+            .idr-karat { background: #2d3748; color: white; border-radius: 5px; padding: 2px 7px; font-size: 0.78em; font-weight: 700; white-space: nowrap; }
+            .idr-purity { color: #64748b; font-size: 0.82em; white-space: nowrap; }
+            .idr-price { font-weight: 700; color: #4f46e5; font-size: 1em; margin-left: auto; white-space: nowrap; }
+            .idr-note { color: #64748b; font-size: 0.8em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px; }
+            .idr-expand { color: #94a3b8; font-size: 0.75em; margin-left: 6px; flex-shrink: 0; }
+            .item-edit-btn { display: none; }
+
+            /* Done button shown in edit mode */
+            .items-table tbody tr.editing .edit-done-btn {
+                display: flex;
+                width: 100%;
                 justify-content: center;
+                margin-top: 6px;
+                padding: 8px;
+                background: #4f46e5;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 0.9em;
+                font-weight: 600;
+                cursor: pointer;
             }
+            .edit-done-btn { display: none; }
+
+            .items-table tbody tr.editing td.display-cell { display: none; }
+            .items-table tbody tr.editing { flex-wrap: wrap; background: #fffbeb; border-color: #f6ad55; padding: 10px 12px; gap: 6px; }
+            .items-table tbody tr.editing td { display: flex; align-items: center; width: 100%; padding: 3px 0; gap: 8px; }
+            .items-table tbody tr.editing td:nth-child(1) { width: auto; flex: 0 0 auto; }
+            .items-table tbody tr.editing td:nth-child(5) { display: none; }
+            .items-table tbody tr.editing td.done-cell { display: block !important; width: 100%; padding: 4px 0 0 0; }
+            .items-table tbody tr.editing td::before { font-size: 0.72em; color: #718096; font-weight: 600; min-width: 50px; }
+            .items-table tbody tr.editing td:nth-child(2)::before { content: 'Weight'; }
+            .items-table tbody tr.editing td:nth-child(3)::before { content: 'Karat'; }
+            .items-table tbody tr.editing td:nth-child(4)::before { content: 'Purity'; }
+            .items-table tbody tr.editing td:nth-child(6)::before { content: 'Note'; }
+            .items-table input, .items-table select { font-size: 16px; padding: 7px 8px; border-radius: 6px; width: 100%; }
+            .karat-select { font-size: 16px; padding: 7px 6px; }
+            .items-table tbody tr::after { display: none; }
         }
-    
-
-        /* Ultra compact receipt redesign */
-        :root {
-            --gold: #b7791f;
-            --gold-dark: #8a5a12;
-            --ink: #1f2937;
-            --muted: #6b7280;
-            --line: #e5e7eb;
-            --soft: #f8fafc;
-        }
-
-        body {
-            background: radial-gradient(circle at top left, #fff7e6 0, #f8fafc 34%, #e8eefc 100%);
-            padding: 14px;
-            padding-top: 18px;
-        }
-
-        .container {
-            max-width: 980px;
-            padding: 20px;
-            border-radius: 18px;
-            box-shadow: 0 18px 45px rgba(31, 41, 55, 0.18);
-        }
-
-        .header-row {
-            margin-bottom: 12px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--line);
-        }
-
-        h1 {
-            font-size: 1.25em;
-            letter-spacing: -0.02em;
-        }
-
-        .market-price-header {
-            background: #fff7ed;
-            border: 1px solid #fed7aa;
-            color: var(--gold-dark);
-            padding: 6px 10px;
-            border-radius: 999px;
-        }
-
-        .settings-grid {
-            padding: 12px 14px 14px;
-            margin-bottom: 10px;
-            border: 1px solid var(--line);
-            background: var(--soft);
-        }
-
-        .input-row, .date-seller-row {
-            width: 100%;
-            gap: 10px;
-        }
-
-        label {
-            font-size: 0.74em;
-            margin-bottom: 4px;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        input[type="text"], input[type="number"], input[type="date"], .karat-select {
-            height: 36px;
-            padding: 7px 9px;
-            border-radius: 7px;
-            font-size: 0.92em;
-        }
-
-        .summary-line {
-            position: sticky;
-            top: 0;
-            z-index: 5;
-            padding: 9px 12px;
-            margin-bottom: 10px;
-            border: 1px solid #dbeafe;
-            background: #eff6ff;
-            font-size: 0.9em;
-        }
-
-        .summary-line strong {
-            color: #1d4ed8;
-            font-size: 1em;
-        }
-
-        .section-header {
-            margin-bottom: 8px;
-            gap: 10px;
-        }
-
-        .section-header h2 {
-            font-size: 1.05em;
-        }
-
-        .section-header > div {
-            gap: 6px !important;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-
-        .add-btn, .export-btn, .delete-selected-btn, .reset-btn, .pdf-btn {
-            padding: 7px 11px;
-            border-radius: 7px;
-            font-size: 0.82em;
-            box-shadow: none !important;
-            transform: none !important;
-        }
-
-        .quick-add-row {
-            margin-bottom: 8px;
-            gap: 8px;
-        }
-
-        .quick-add-row input {
-            height: 38px;
-            font-size: 0.9em;
-        }
-
-        .items-table {
-            table-layout: fixed;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            overflow: hidden;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-bottom: 8px;
-        }
-
-        .items-table thead {
-            background: #1f2937;
-        }
-
-        .items-table th {
-            padding: 7px 8px;
-            font-size: 0.72em;
-            white-space: nowrap;
-        }
-
-        .items-table td {
-            padding: 4px 6px;
-            font-size: 0.86em;
-            vertical-align: middle;
-        }
-
-        .items-table tbody tr:nth-child(even) {
-            background: #fbfdff;
-        }
-
-        .items-table tbody tr:hover {
-            background: #fff7ed;
-        }
-
-        .items-table input, .items-table select {
-            height: 30px;
-            padding: 4px 6px;
-            font-size: 0.9em;
-            border-radius: 6px;
-        }
-
-        .items-table th:nth-child(1), .items-table td:nth-child(1) { width: 34px; text-align: center; }
-        .items-table th:nth-child(2), .items-table td:nth-child(2) { width: 96px; }
-        .items-table th:nth-child(3), .items-table td:nth-child(3) { width: 92px; }
-        .items-table th:nth-child(4), .items-table td:nth-child(4) { width: 84px; }
-        .items-table th:nth-child(5), .items-table td:nth-child(5) { width: 110px; }
-        .items-table th:nth-child(6), .items-table td:nth-child(6) { width: auto; }
-        .items-table th:nth-child(7), .items-table td:nth-child(7) { width: 52px; text-align: center; }
-
-        .items-table td:nth-child(2) input { max-width: none !important; }
-
-        .price-cell {
-            font-size: 0.98em;
-            white-space: nowrap;
-            color: var(--gold-dark);
-        }
-
-        .items-table td.note-cell {
-            min-width: 0;
-        }
-
-        .note-cell input {
-            min-width: 100%;
-        }
-
-        .bottom-buttons {
-            margin-top: 8px;
-        }
-
-        .photos-section {
-            margin-top: 12px;
-            padding: 12px;
-        }
-
-        .photos-section h3 {
-            margin-bottom: 8px;
-            font-size: 0.92em;
-        }
-
-        .photo-grid {
-            gap: 8px;
-        }
-
-        @media (max-width: 768px) {
-            body { padding: 8px; padding-top: 10px; }
-            .container { padding: 10px; border-radius: 14px; }
-            .header-row { flex-direction: row; align-items: center; }
-            h1 { font-size: 1.02em; }
-            .market-price-header { font-size: 0.72em; padding: 5px 7px; }
-            .settings-grid { padding: 10px; }
-            .input-row { width: 100%; grid-template-columns: 1fr 1fr; }
-            .section-header > div { display: grid !important; grid-template-columns: 1fr 1fr; }
-            .section-header button { padding: 8px 7px; font-size: 0.78em; }
-            .summary-line { font-size: 0.82em; padding: 8px 9px; }
-
-            .items-table tbody tr {
-                padding: 6px;
-                margin-bottom: 6px;
-                border-radius: 9px;
-            }
-
-            .items-table td:nth-child(1) { width: 24px; margin-right: 4px; }
-            .items-table td:nth-child(2) { width: 22%; margin-right: 2%; }
-            .items-table td:nth-child(3) { width: 20%; margin-right: 2%; }
-            .items-table td:nth-child(5) { width: 31%; }
-            .items-table td:nth-child(7) { width: 34px; }
-            .items-table td:nth-child(2)::before { content: ''; }
-            .items-table input, .items-table select { height: 32px; padding: 5px 6px; }
-            .price-cell { font-size: 0.92em; }
-            .expand-btn { width: 30px; height: 30px; }
-            .items-table tbody tr.expanded td:nth-child(6)::before { content: 'Note'; }
-            .quick-add-row { display: grid; grid-template-columns: 1fr auto; }
-            .quick-add-row button { padding-left: 10px; padding-right: 10px; }
-        }
-
     </style>
 </head>
 <body>
@@ -1433,9 +1183,21 @@
                 </div>
             </div>
 
-            <div class="quick-add-row">
-                <input type="text" id="quickAdd" placeholder="Quick add: 10g 14k, 5.2g 10k, 2 dwt 18k" onkeydown="if(event.key==='Enter') quickAddItems()">
-                <button class="add-btn" onclick="quickAddItems()">Quick Add</button>
+            <!-- Quick Add Bar -->
+            <div class="quick-add-bar">
+                <input type="number" id="qaWeight" inputmode="decimal" placeholder="Weight" step="0.01" min="0" onkeydown="if(event.key==='Enter') quickAddItem()">
+                <select id="qaKarat" onchange="handleQaKaratChange()">
+                    <option value="9K">9K</option>
+                    <option value="10K" selected>10K</option>
+                    <option value="14K">14K</option>
+                    <option value="18K">18K</option>
+                    <option value="21K">21K</option>
+                    <option value="22K">22K</option>
+                    <option value="24K">24K</option>
+                    <option value="Custom">Custom</option>
+                </select>
+                <input type="number" id="qaPurity" placeholder="Purity %" step="0.01" min="0" max="100" value="41.67" disabled>
+                <button class="add-btn" onclick="quickAddItem()">+ Add</button>
             </div>
 
             <table class="items-table">
@@ -1447,7 +1209,7 @@
                         <th>Purity %</th>
                         <th>Price</th>
                         <th>Note</th>
-                        <th class="mobile-actions-header">More</th>
+                        <th style="width:0;padding:0;"></th>
                     </tr>
                 </thead>
                 <tbody id="itemsBody">
@@ -1455,7 +1217,6 @@
             </table>
 
             <div class="bottom-buttons">
-                <button class="add-btn" onclick="addItem()">+ Add Item</button>
                 <button class="reset-btn" onclick="resetApp()">🔄 Reset</button>
             </div>
         </div>
@@ -1507,45 +1268,6 @@
         };
 
         let itemCount = 0;
-
-        function formatMoney(value) {
-            return (Number(value) || 0).toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-        }
-
-        function convertToTroyOunces(weight, unit) {
-            if (unit === 'grams') return weight / 31.1034768;
-            if (unit === 'dwt') return weight / 20;
-            if (unit === 'ozt') return weight;
-            return 0;
-        }
-
-        function calculateGoldValue(weight, purity, spotPrice, percentSpot, unit) {
-            const weightInOzt = convertToTroyOunces(weight, unit);
-            return weightInOzt * (purity / 100) * spotPrice * (percentSpot / 100);
-        }
-
-        function debounce(fn, delay = 200) {
-            let timeout;
-            return (...args) => {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => fn(...args), delay);
-            };
-        }
-
-        function recalculateAllItems() {
-            const tbody = document.getElementById('itemsBody');
-            for (let row of tbody.rows) {
-                const itemId = row.id.split('-')[1];
-                calculateItem(parseInt(itemId));
-            }
-        }
-
-        const debouncedRecalc = debounce(recalculateAllItems, 200);
 
         // Set today's date
         document.getElementById('date').valueAsDate = new Date();
@@ -1634,15 +1356,58 @@
 
         // Removed auto-refresh - users now click the refresh button manually
 
+        function handleQaKaratChange() {
+            const karat = document.getElementById('qaKarat').value;
+            const purityInput = document.getElementById('qaPurity');
+            if (karat === 'Custom') {
+                purityInput.disabled = false;
+                purityInput.value = '';
+                purityInput.focus();
+            } else {
+                purityInput.disabled = true;
+                purityInput.value = karatPurities[karat].toFixed(2);
+            }
+        }
+
+        function quickAddItem() {
+            const weight = document.getElementById('qaWeight').value;
+            const karat  = document.getElementById('qaKarat').value;
+            const purity = document.getElementById('qaPurity').value;
+
+            if (!weight || parseFloat(weight) <= 0) {
+                document.getElementById('qaWeight').focus();
+                return;
+            }
+
+            // Create the item
+            addItem();
+            const row = document.getElementById(`item-${itemCount}`);
+            row.cells[1].querySelector('input').value = weight;
+            const karatSelect = row.cells[2].querySelector('select');
+            karatSelect.value = karat;
+            const purityInput = row.cells[3].querySelector('input');
+            purityInput.disabled = karat !== 'Custom';
+            purityInput.value = purity;
+            calculateItem(itemCount);
+
+            // Collapse the row — show as display row
+            row.classList.remove('editing');
+            updateDisplayRow(itemCount);
+
+            // Reset quick add weight, keep karat/purity for fast repeat entry
+            document.getElementById('qaWeight').value = '';
+            document.getElementById('qaWeight').focus();
+        }
+
         function addItem() {
             itemCount++;
             const tbody = document.getElementById('itemsBody');
-            const row = tbody.insertRow(); // Insert at bottom (default)
+            const row = tbody.insertRow();
             row.id = `item-${itemCount}`;
-            
+
             row.innerHTML = `
                 <td><input type="checkbox" class="item-checkbox"></td>
-                <td><input type="number" inputmode="decimal" step="0.01" min="0" value="" placeholder="0" style="max-width: 80px;" class="${currentUnit !== 'grams' ? 'weight-input-warning' : ''}" oninput="calculateItem(${itemCount})"></td>
+                <td><input type="number" inputmode="decimal" step="0.01" min="0" value="" placeholder="0" style="max-width: 80px;" class="${currentUnit !== 'grams' ? 'weight-input-warning' : ''}" oninput="calculateItem(${itemCount}); updateDisplayRow(${itemCount})"></td>
                 <td>
                     <select class="karat-select" onchange="handleKaratChange(${itemCount})">
                         <option value="9K">9K</option>
@@ -1655,19 +1420,66 @@
                         <option value="Custom">Custom</option>
                     </select>
                 </td>
-                <td><input type="number" step="0.01" min="0" max="100" value="41.67" oninput="calculateItem(${itemCount})" disabled></td>
+                <td><input type="number" step="0.01" min="0" max="100" value="41.67" oninput="calculateItem(${itemCount}); updateDisplayRow(${itemCount})" disabled></td>
                 <td class="price-cell">$0.00</td>
-                <td class="note-cell"><input type="text" placeholder="Note" oninput="updateNoteIndicator(${itemCount})" onchange="calculateTotal()"></td>
-                <td><button type="button" class="expand-btn" onclick="toggleRow(this)" aria-label="Expand item">▼</button></td>
+                <td class="note-cell"><input type="text" placeholder="Note" oninput="updateNoteIndicator(${itemCount}); updateDisplayRow(${itemCount})" onchange="calculateTotal()"></td>
+                <td class="display-cell" id="display-${itemCount}" onclick="toggleEditMode(${itemCount})">
+                    <div class="item-display-row">
+                        <span class="idr-num">${tbody.rows.length}</span>
+                        <span class="idr-weight">0 ${document.getElementById('weightHeader').textContent}</span>
+                        <span class="idr-karat">10K</span>
+                        <span class="idr-purity">41.67%</span>
+                        <span class="idr-price">$0.00</span>
+                        <span class="idr-note"></span>
+                    </div>
+                    <span class="idr-expand">▼</span>
+                </td>
+                <td class="done-cell" style="display:none; padding:0; border:none;">
+                    <button class="edit-done-btn" onclick="toggleEditMode(${itemCount})">✓ Done</button>
+                </td>
             `;
 
             calculateTotal();
-            
-            // Focus on the weight field (second cell, first input)
-            const weightInput = row.cells[1].querySelector('input');
-            if (weightInput) {
-                weightInput.focus();
+        }
+
+        function toggleEditMode(itemId) {
+            const row = document.getElementById(`item-${itemId}`);
+            const doneCell = row.querySelector('.done-cell');
+            if (row.classList.contains('editing')) {
+                row.classList.remove('editing');
+                if (doneCell) doneCell.style.display = 'none';
+                updateDisplayRow(itemId);
+            } else {
+                row.classList.add('editing');
+                if (doneCell) doneCell.style.display = '';
+                // Focus weight input
+                const weightInput = row.cells[1].querySelector('input');
+                if (weightInput) weightInput.focus();
             }
+        }
+
+        function updateDisplayRow(itemId) {
+            const row = document.getElementById(`item-${itemId}`);
+            const displayCell = document.getElementById(`display-${itemId}`);
+            if (!displayCell) return;
+
+            const tbody = document.getElementById('itemsBody');
+            const rowIndex = Array.from(tbody.rows).indexOf(row) + 1;
+            const weight = row.cells[1].querySelector('input').value || '0';
+            const karat  = row.cells[2].querySelector('select').value;
+            const purity = row.cells[3].querySelector('input').value;
+            const price  = row.cells[4].textContent.trim();
+            const note   = row.cells[5].querySelector('input').value;
+            const unit   = document.getElementById('weightHeader').textContent;
+
+            displayCell.querySelector('.item-display-row').innerHTML = `
+                <span class="idr-num">${rowIndex}</span>
+                <span class="idr-weight">${weight} ${unit}</span>
+                <span class="idr-karat">${karat}</span>
+                <span class="idr-purity">${purity}%</span>
+                <span class="idr-price">${price}</span>
+                ${note ? `<span class="idr-note">${note}</span>` : ''}
+            `;
         }
 
         function handleKaratChange(itemId) {
@@ -1706,10 +1518,26 @@
             const spotPrice = parseFloat(document.getElementById('spotPrice').value) || 0;
             const percentSpot = parseFloat(document.getElementById('percentSpot').value) || 0;
 
-            const price = calculateGoldValue(weight, purity, spotPrice, percentSpot, currentUnit);
-
-            row.cells[4].textContent = formatMoney(price);
+            let price = 0;
             
+            // Convert weight to troy ounces based on current unit
+            let weightInOzt = 0;
+            if (currentUnit === 'grams') {
+                // Convert grams to troy ounces (31.1034768 grams per troy ounce)
+                weightInOzt = weight / 31.1034768;
+            } else if (currentUnit === 'dwt') {
+                // Convert pennyweight to troy ounces (20 dwt per troy ounce)
+                weightInOzt = weight / 20;
+            } else if (currentUnit === 'ozt') {
+                // Already in troy ounces
+                weightInOzt = weight;
+            }
+            
+            // Calculate: weightInOzt * purity/100 * spotPrice * percentSpot/100
+            price = weightInOzt * (purity / 100) * spotPrice * (percentSpot / 100);
+            
+            row.cells[4].textContent = `$${price.toFixed(2)}`;
+            updateDisplayRow(itemId);
             calculateTotal();
         }
 
@@ -1723,24 +1551,34 @@
                 const grams = parseFloat(row.cells[1].querySelector('input').value) || 0;
                 totalGrams += grams;
                 
-                const priceText = row.cells[4].textContent.replace(/[$,]/g, '');
+                const priceText = row.cells[4].textContent.replace('$', '').replace(',', '');
                 totalCost += parseFloat(priceText) || 0;
             }
 
             document.getElementById('totalGrams').textContent = totalGrams.toFixed(2);
             document.getElementById('totalCost').textContent = `$${totalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+            if (typeof summaryMode !== 'undefined' && summaryMode) buildSummary();
         }
 
         // Update all calculations when spot price or percent changes
-        document.getElementById('spotPrice').addEventListener('input', debouncedRecalc);
-        document.getElementById('percentSpot').addEventListener('input', debouncedRecalc);
+        document.getElementById('spotPrice').addEventListener('input', () => {
+            const tbody = document.getElementById('itemsBody');
+            for (let i = 0; i < tbody.rows.length; i++) {
+                const row = tbody.rows[i];
+                const itemId = row.id.split('-')[1];
+                calculateItem(parseInt(itemId));
+            }
+        });
 
-        function toggleRow(btn) {
-            const row = btn.closest('tr');
-            row.classList.toggle('expanded');
-            btn.textContent = row.classList.contains('expanded') ? '▲' : '▼';
-            btn.setAttribute('aria-label', row.classList.contains('expanded') ? 'Collapse item' : 'Expand item');
-        }
+        document.getElementById('percentSpot').addEventListener('input', () => {
+            const tbody = document.getElementById('itemsBody');
+            for (let i = 0; i < tbody.rows.length; i++) {
+                const row = tbody.rows[i];
+                const itemId = row.id.split('-')[1];
+                calculateItem(parseInt(itemId));
+            }
+        });
 
         function loadPhoto(slotNum, input) {
             if (!input.files || !input.files[0]) return;
@@ -1763,10 +1601,6 @@
                     canvas.height = h;
                     canvas.getContext('2d').drawImage(rawImg, 0, 0, w, h);
                     const compressed = canvas.toDataURL('image/jpeg', 0.5); // 50% quality
-                    if (compressed.length > 2000000) {
-                        alert('Image too large. Try a smaller photo.');
-                        return;
-                    }
 
                     const img = document.createElement('img');
                     img.src = compressed;
@@ -1868,7 +1702,7 @@
             csv += `Total Grams,${totalGrams}\n`;
             csv += `Total Cost,${totalCost}\n\n`;
             
-            csv += `${document.getElementById('weightHeader').textContent},Karat,Purity %,Price,Note\n`;
+            csv += 'Grams,Karat,Purity %,Price,Note\n';
             
             const tbody = document.getElementById('itemsBody');
             for (let row of tbody.rows) {
@@ -1877,9 +1711,10 @@
                 const purity = row.cells[3].querySelector('input').value || '0';
                 const priceText = row.cells[4].textContent;
                 const note = row.cells[5].querySelector('input').value || '';
-                const price = priceText.replace(/[$,]/g, '');
+                // Remove dollar sign from price
+                const price = priceText.replace('$', '');
                 
-                csv += `${grams},${karat},${purity},${price},"${note.replace(/"/g, '""')}"\n`;
+                csv += `${grams},${karat},${purity},${price},"${note}"\n`;
             }
 
             // Create download link
@@ -1997,57 +1832,6 @@
             return result;
         }
 
-        function weightToOzt(weight, unit) {
-            const u = (unit || 'grams').toLowerCase();
-            if (u === 'dwt' || u === 'pennyweight') return Number(weight) / 20;
-            if (u === 'ozt' || u === 'oz' || u === 'toz') return Number(weight);
-            return Number(weight) / 31.1034768;
-        }
-
-        function oztToUnit(ozt, unit) {
-            if (unit === 'dwt') return ozt * 20;
-            if (unit === 'ozt') return ozt;
-            return ozt * 31.1034768;
-        }
-
-        function quickAddItems() {
-            const input = document.getElementById('quickAdd');
-            const raw = input.value.trim();
-            if (!raw) return;
-
-            const entries = raw.split(',').map(v => v.trim()).filter(Boolean);
-            let added = 0;
-
-            entries.forEach(entry => {
-                const match = entry.match(/([\d.]+)\s*(g|gram|grams|dwt|pennyweight|ozt|oz|toz)?\s*(9|10|14|18|21|22|24)\s*k(?:\s+(.+))?$/i);
-                if (!match) return;
-
-                const originalWeight = parseFloat(match[1]);
-                const parsedUnit = (match[2] || currentUnit).toLowerCase();
-                const karat = `${match[3]}K`;
-                const note = match[4] || '';
-
-                const weightForCurrentUnit = oztToUnit(weightToOzt(originalWeight, parsedUnit), currentUnit);
-
-                addItem();
-                const row = document.getElementById(`item-${itemCount}`);
-                row.cells[1].querySelector('input').value = Number(weightForCurrentUnit.toFixed(3));
-                row.cells[2].querySelector('select').value = karat;
-                row.cells[5].querySelector('input').value = note;
-                handleKaratChange(itemCount);
-                added++;
-            });
-
-            if (!added) {
-                alert('Use a format like: 10g 14k, 5.2g 10k, 2 dwt 18k');
-                return;
-            }
-
-            input.value = '';
-            calculateTotal();
-            saveState();
-        }
-
         function deleteSelected() {
             const checkboxes = document.querySelectorAll('.item-checkbox:checked');
             if (checkboxes.length === 0) {
@@ -2110,13 +1894,125 @@
 
                 addItem();
                 calculateTotal();
-                saveState();
+                dbClear();
             }
         }
 
-        // ── AUTO-SAVE ──────────────────────────────────────────────
+        // ── SUMMARY VIEW ──────────────────────────────────────────
+        let summaryMode = false;
+
+        function toggleSummaryView() {
+            summaryMode = !summaryMode;
+            const btn = document.getElementById('summaryToggleBtn');
+            const summaryView = document.getElementById('summaryView');
+            const table = document.querySelector('.items-table');
+            const bottomBtns = document.querySelector('.bottom-buttons');
+
+            if (summaryMode) {
+                buildSummary();
+                summaryView.style.display = 'block';
+                table.style.display = 'none';
+                bottomBtns.style.display = 'none';
+                btn.textContent = '✏️ Edit View';
+                btn.classList.add('active');
+            } else {
+                summaryView.style.display = 'none';
+                table.style.display = '';
+                bottomBtns.style.display = '';
+                btn.textContent = '📋 Summary View';
+                btn.classList.remove('active');
+            }
+        }
+
+        function buildSummary() {
+            const list = document.getElementById('summaryList');
+            list.innerHTML = '';
+            const rows = document.querySelectorAll('#itemsBody tr');
+            const unit = document.getElementById('weightHeader').textContent;
+
+            if (rows.length === 0) {
+                list.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:20px;">No items yet</div>';
+                return;
+            }
+
+            rows.forEach((row, i) => {
+                const weight  = row.cells[1].querySelector('input').value || '0';
+                const karat   = row.cells[2].querySelector('select').value;
+                const purity  = row.cells[3].querySelector('input').value;
+                const price   = row.cells[4].textContent.trim();
+                const note    = row.cells[5].querySelector('input').value;
+                const itemId  = row.id.split('-')[1];
+
+                const div = document.createElement('div');
+                div.className = 'summary-row';
+                div.innerHTML = `
+                    <span class="sr-index">${i + 1}</span>
+                    <span class="sr-weight">${weight} ${unit}</span>
+                    <span class="sr-karat">${karat}</span>
+                    <span class="sr-purity">${purity}%</span>
+                    <span class="sr-price">${price}</span>
+                    ${note ? `<span class="sr-note">${note}</span>` : ''}
+                    <span class="sr-edit">✏️</span>
+                `;
+                div.onclick = () => {
+                    // Switch back to edit view and scroll to that row
+                    toggleSummaryView();
+                    const targetRow = document.getElementById(`item-${itemId}`);
+                    if (targetRow) {
+                        targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetRow.cells[1].querySelector('input').focus();
+                        targetRow.style.background = '#eef2ff';
+                        setTimeout(() => targetRow.style.background = '', 1000);
+                    }
+                };
+                list.appendChild(div);
+            });
+        }
+
+        // ── INDEXEDDB AUTO-SAVE ────────────────────────────────────
+        const DB_NAME = 'GoldCalcDB';
+        const DB_VERSION = 1;
+        const STORE = 'state';
+        let db = null;
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, DB_VERSION);
+                req.onupgradeneeded = e => {
+                    e.target.result.createObjectStore(STORE, { keyPath: 'id' });
+                };
+                req.onsuccess = e => { db = e.target.result; resolve(db); };
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        function dbPut(data) {
+            if (!db) return;
+            const tx = db.transaction(STORE, 'readwrite');
+            tx.objectStore(STORE).put({ id: 'current', ...data });
+        }
+
+        function dbGet() {
+            return new Promise((resolve) => {
+                if (!db) return resolve(null);
+                const tx = db.transaction(STORE, 'readonly');
+                const req = tx.objectStore(STORE).get('current');
+                req.onsuccess = () => resolve(req.result || null);
+                req.onerror = () => resolve(null);
+            });
+        }
+
+        function dbClear() {
+            if (!db) return;
+            const tx = db.transaction(STORE, 'readwrite');
+            tx.objectStore(STORE).delete('current');
+        }
+
+        let saveTimer = null;
         function saveState() {
-            try {
+            // Debounce — save 800ms after last change
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => {
                 const items = [];
                 document.querySelectorAll('#itemsBody tr').forEach(row => {
                     items.push({
@@ -2133,87 +2029,83 @@
                     photos.push(img ? img.src : null);
                 }
 
-                const state = {
-                    date:         document.getElementById('date').value,
-                    store:        document.getElementById('store').value,
-                    buyer:        document.getElementById('buyer').value,
-                    spotPrice:    document.getElementById('spotPrice').value,
-                    percentSpot:  document.getElementById('percentSpot').value,
-                    unit:         currentUnit,
+                dbPut({
+                    date:        document.getElementById('date').value,
+                    store:       document.getElementById('store').value,
+                    buyer:       document.getElementById('buyer').value,
+                    spotPrice:   document.getElementById('spotPrice').value,
+                    percentSpot: document.getElementById('percentSpot').value,
+                    unit:        currentUnit,
                     items,
                     photos
-                };
-                localStorage.setItem('goldCalcState', JSON.stringify(state));
-            } catch(e) {}
+                });
+            }, 800);
         }
 
-        function restoreState() {
-            try {
-                const raw = localStorage.getItem('goldCalcState');
-                if (!raw) return false;
-                const state = JSON.parse(raw);
+        function applyState(state) {
+            if (!state) return false;
+            if (state.date)        document.getElementById('date').value = state.date;
+            if (state.store)       document.getElementById('store').value = state.store;
+            if (state.buyer)       document.getElementById('buyer').value = state.buyer;
+            if (state.spotPrice)   document.getElementById('spotPrice').value = state.spotPrice;
+            if (state.percentSpot) document.getElementById('percentSpot').value = state.percentSpot;
 
-                if (state.date)        document.getElementById('date').value = state.date;
-                if (state.store)       document.getElementById('store').value = state.store;
-                if (state.buyer)       document.getElementById('buyer').value = state.buyer;
-                if (state.spotPrice)   document.getElementById('spotPrice').value = state.spotPrice;
-                if (state.percentSpot) document.getElementById('percentSpot').value = state.percentSpot;
+            if (state.unit) {
+                currentUnit = state.unit;
+                const radio = document.querySelector(`input[name="unit"][value="${state.unit}"]`);
+                if (radio) { radio.checked = true; handleUnitChange(); }
+            }
 
-                if (state.unit) {
-                    currentUnit = state.unit;
-                    const radio = document.querySelector(`input[name="unit"][value="${state.unit}"]`);
-                    if (radio) { radio.checked = true; handleUnitChange(); }
-                }
+            if (state.items && state.items.length) {
+                const tbody = document.getElementById('itemsBody');
+                tbody.innerHTML = '';
+                itemCount = 0;
+                state.items.forEach(item => {
+                    addItem();
+                    const row = document.getElementById(`item-${itemCount}`);
+                    row.cells[1].querySelector('input').value = item.weight;
+                    const karatSelect = row.cells[2].querySelector('select');
+                    karatSelect.value = item.karat;
+                    const purityInput = row.cells[3].querySelector('input');
+                    purityInput.disabled = item.karat !== 'Custom';
+                    purityInput.value = item.purity;
+                    row.cells[5].querySelector('input').value = item.note || '';
+                    calculateItem(itemCount);
+                    // Close edit mode — show display row
+                    row.classList.remove('editing');
+                    updateDisplayRow(itemCount);
+                });
+            }
 
-                if (state.items && state.items.length) {
-                    const tbody = document.getElementById('itemsBody');
-                    tbody.innerHTML = '';
-                    itemCount = 0;
-                    state.items.forEach(item => {
-                        addItem();
-                        const row = document.getElementById(`item-${itemCount}`);
-                        row.cells[1].querySelector('input').value = item.weight;
-                        const karatSelect = row.cells[2].querySelector('select');
-                        karatSelect.value = item.karat;
-                        const purityInput = row.cells[3].querySelector('input');
-                        if (item.karat === 'Custom') {
-                            purityInput.disabled = false;
-                            purityInput.value = item.purity;
-                        } else {
-                            purityInput.disabled = true;
-                            purityInput.value = item.purity;
-                        }
-                        row.cells[5].querySelector('input').value = item.note || '';
-                        calculateItem(itemCount);
-                    });
-                }
+            if (state.photos) {
+                state.photos.forEach((src, i) => {
+                    if (!src) return;
+                    const slot = document.getElementById(`slot-${i + 1}`);
+                    slot.querySelectorAll('span').forEach(s => s.style.display = 'none');
+                    const img = document.createElement('img');
+                    img.src = src;
+                    slot.insertBefore(img, slot.querySelector('.remove-photo'));
+                    slot.classList.add('has-photo');
+                });
+            }
 
-                if (state.photos) {
-                    state.photos.forEach((src, i) => {
-                        if (!src) return;
-                        const slot = document.getElementById(`slot-${i + 1}`);
-                        slot.querySelectorAll('span').forEach(s => s.style.display = 'none');
-                        const img = document.createElement('img');
-                        img.src = src;
-                        slot.insertBefore(img, slot.querySelector('.remove-photo'));
-                        slot.classList.add('has-photo');
-                    });
-                }
-
-                calculateTotal();
-                return true;
-            } catch(e) { return false; }
+            calculateTotal();
+            return true;
         }
 
-        // Hook autosave onto all relevant inputs
+        // Hook autosave onto all inputs
         document.addEventListener('input', saveState);
         document.addEventListener('change', saveState);
 
-        // Restore on load
-        window.addEventListener('load', () => {
-            if (!restoreState()) {
-                addItem(); // fresh start if nothing saved
+        // Open DB then restore on load
+        openDB().then(() => {
+            return dbGet();
+        }).then(state => {
+            if (!applyState(state)) {
+                addItem();
             }
+        }).catch(() => {
+            addItem();
         });
 
         // Register service worker for PWA
