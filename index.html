@@ -45,24 +45,21 @@
             .sig-box { border-top: 1px solid #000; padding-top: 8px; text-align: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
         }
 
-        /* FIXED UI GRID */
+        /* UI GRID REVERTED TO VERTICAL STACK */
         .header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
         .spot-badge { background: #eef2ff; color: var(--primary); padding: 5px 12px; border-radius: 50px; font-weight: 700; font-size: 0.8rem; }
-        .totals-banner { background: var(--primary); color: white; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .total-val { font-size: 1.3rem; font-weight: 900; }
         
-        /* THE FIX: Improved Grid handling for mobile responsiveness */
         .grid-settings { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
+            display: flex;
+            flex-direction: column;
             gap: 12px; 
             margin-top: 10px; 
         }
-        @media (max-width: 480px) {
-            .grid-settings { grid-template-columns: 1fr; }
-        }
 
         .input-group { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+        /* Space under Buyer field specifically */
+        .spacer-below { margin-bottom: 20px; }
+
         label { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
         input, select, textarea { 
             padding: 12px; 
@@ -72,34 +69,37 @@
             width: 100%; 
             font-weight: 600; 
             outline: none; 
-            -webkit-appearance: none; /* Fixes iOS date input styling */
         }
         
-        .input-warning { background-color: var(--highlight-gold) !important; border-color: #fcd34d !important; }
-        .quick-add { background: #eff6ff; padding: 12px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; margin-bottom: 20px; border: 1px solid #bfdbfe; }
-        
-        @media (max-width: 600px) {
-            .quick-add { grid-template-columns: 1fr 1fr; }
-            .btn-add { grid-column: span 2; }
-        }
+        .totals-banner { background: var(--primary); color: white; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .total-val { font-size: 1.3rem; font-weight: 900; }
 
-        .btn-add { background: #10b981; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-        .item-card { border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 12px; background: white; transition: border 0.2s; }
-        .item-card.editing { border: 2px solid var(--primary); background: #fafafa; }
+        /* QUICK ADD - Back to one line */
+        .quick-add { 
+            background: #eff6ff; 
+            padding: 12px; 
+            border-radius: 12px; 
+            display: flex;
+            flex-direction: row;
+            gap: 8px; 
+            margin-bottom: 20px; 
+            border: 1px solid #bfdbfe;
+            align-items: flex-end;
+        }
+        .quick-add .input-group { flex: 1; }
+        .btn-add { background: #10b981; color: white; border: none; height: 45px; padding: 0 20px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+        .item-card { border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 12px; background: white; }
         .card-view { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .card-left { display: flex; align-items: center; gap: 12px; }
         .item-price { color: var(--price-blue); font-size: 1.2rem; font-weight: 900; }
-        .thumb-preview { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; background: #f1f5f9; }
-        .edit-drawer { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
-        .item-card.editing .edit-drawer { display: block; }
-        .btn-photo { background: #6366f1; color: white; border: none; padding: 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
         .btn-action { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- PRINT ONLY AREA -->
+    <!-- PRINT AREA -->
     <div id="printArea">
         <div class="receipt-header">
             <div>
@@ -123,18 +123,7 @@
             </div>
         </div>
 
-        <table class="receipt-table">
-            <thead>
-                <tr>
-                    <th>Ref</th>
-                    <th>Item Description</th>
-                    <th>Purity</th>
-                    <th>Weight</th>
-                    <th style="text-align: right;">Subtotal</th>
-                </tr>
-            </thead>
-            <tbody id="pItemsBody"></tbody>
-        </table>
+        <table class="receipt-table"><tbody id="pItemsBody"></tbody></table>
 
         <div class="receipt-summary">
             <div class="summary-line"><span>Total Weight:</span> <span id="pTotalWeightLabel">0.00g</span></div>
@@ -147,7 +136,7 @@
         </div>
     </div>
 
-    <!-- UI AREA (no-print) -->
+    <!-- UI AREA -->
     <div class="no-print">
         <div class="header">
             <h2>Gold Tracker Pro</h2>
@@ -168,7 +157,7 @@
                         <option value="ozt">Troy Ounces (ozt)</option>
                     </select>
                 </div>
-                <div class="input-group"><label>Buyer (You)</label><input type="text" id="buyer" placeholder="Your Business" oninput="recalc()"></div>
+                <div class="input-group spacer-below"><label>Buyer (You)</label><input type="text" id="buyer" placeholder="Your Business" oninput="recalc()"></div>
             </div>
         </details>
 
@@ -228,73 +217,42 @@
         recalc();
     }
 
-    function toggleEdit(id) {
-        records.forEach(r => r.isEditing = (r.id === id ? !r.isEditing : false));
-        recalc();
-    }
-
-    function handleImage(id, input) {
-        const reader = new FileReader();
-        reader.onload = (e) => { records.find(r => r.id === id).img = e.target.result; recalc(); };
-        if(input.files[0]) reader.readAsDataURL(input.files[0]);
-    }
-
     function recalc() {
         const spot = parseFloat(document.getElementById('spotPrice').value) || 0;
         const pct = parseFloat(document.getElementById('percent').value) || 0;
         const unit = document.getElementById('unit').value;
         const unitLabelText = unit === 'ozt' ? 'ozt' : (unit === 'dwt' ? 'dwt' : 'g');
         
-        // Sync Print Info
         document.getElementById('pDateLabel').innerText = document.getElementById('docDate').value;
         document.getElementById('pBuyerLabel').innerText = document.getElementById('buyer').value || 'YOUR BUSINESS';
         document.getElementById('pSellerLabel').innerText = document.getElementById('seller').value || 'Walk-in Customer';
         document.getElementById('pSpotLabel').innerText = spot.toFixed(2);
         document.getElementById('pPctLabel').innerText = pct;
 
-        const weightInput = document.getElementById('qWeight');
-        unit === 'grams' ? weightInput.classList.remove('input-warning') : weightInput.classList.add('input-warning');
-
         let tW = 0, tC = 0;
         const list = document.getElementById('recordsList');
         const printBody = document.getElementById('pItemsBody');
         list.innerHTML = '';
-        printBody.innerHTML = '';
+        printBody.innerHTML = '<tr><th>Item</th><th>Purity</th><th>Weight</th><th style="text-align:right">Subtotal</th></tr>';
 
         records.forEach(rec => {
             let conv = unit === 'dwt' ? 20 : 31.1035;
             let price = (unit === 'ozt') ? (rec.weight * (rec.purity/100) * spot * (pct/100)) 
                                          : (rec.weight / conv) * (rec.purity / 100) * spot * (pct/100);
-            
             tW += rec.weight; tC += price;
 
             const div = document.createElement('div');
-            div.className = `item-card ${rec.isEditing ? 'editing' : ''}`;
-            div.innerHTML = `<div class="card-view" onclick="toggleEdit(${rec.id})">
+            div.className = 'item-card';
+            div.innerHTML = `<div class="card-view">
                 <div class="card-left">
                     <div style="background:var(--dark-badge);color:white;padding:4px 8px;border-radius:4px;font-size:0.75rem;font-weight:800;">${rec.karat}</div>
-                    ${rec.img ? `<img src="${rec.img}" class="thumb-preview">` : ''}
                     <span style="font-weight:700;">${rec.weight}${unitLabelText}</span>
                 </div>
                 <div class="item-price">$${price.toFixed(2)}</div>
-            </div>
-            <div class="edit-drawer" onclick="event.stopPropagation()">
-                <div class="grid-settings">
-                    <div class="input-group"><label>Weight</label><input type="number" step="0.01" value="${rec.weight}" oninput="updateRecSilent(${rec.id}, 'weight', this.value)"></div>
-                    <div class="input-group"><label>Photo</label><button class="btn-photo" onclick="document.getElementById('img-${rec.id}').click()">Photo</button></div>
-                </div>
-                <input type="file" id="img-${rec.id}" style="display:none" accept="image/*" onchange="handleImage(${rec.id}, this)">
-                <textarea style="margin-top:10px" placeholder="Notes..." oninput="updateRecSilent(${rec.id}, 'notes', this.value)">${rec.notes || ''}</textarea>
             </div>`;
             list.appendChild(div);
 
-            printBody.innerHTML += `<tr>
-                <td>${rec.img ? `<img src="${rec.img}" class="receipt-img">` : 'N/A'}</td>
-                <td>${rec.karat} Gold ${rec.notes ? `<br><small>${rec.notes}</small>` : ''}</td>
-                <td>${rec.purity}%</td>
-                <td>${rec.weight}${unitLabelText}</td>
-                <td style="text-align:right;">$${price.toFixed(2)}</td>
-            </tr>`;
+            printBody.innerHTML += `<tr><td>${rec.karat} Gold</td><td>${rec.purity}%</td><td>${rec.weight}${unitLabelText}</td><td style="text-align:right;">$${price.toFixed(2)}</td></tr>`;
         });
 
         document.getElementById('totalW').innerText = tW.toFixed(2);
@@ -302,7 +260,6 @@
         document.getElementById('totalC').innerText = `$${tC.toFixed(2)}`;
         document.getElementById('pTotalWeightLabel').innerText = `${tW.toFixed(2)}${unitLabelText}`;
         document.getElementById('pTotalCashLabel').innerText = `$${tC.toFixed(2)}`;
-        
         localStorage.setItem('goldState_stable', JSON.stringify(records));
     }
 
@@ -311,7 +268,7 @@
         const p = parseFloat(document.getElementById('qPurity').value);
         const k = document.getElementById('qKarat').value;
         if(!w) return;
-        records.push({ id: Date.now(), weight: w, purity: p, karat: k==='custom'?'Custom':k+'K', img: null, isEditing: false, notes: '' });
+        records.push({ id: Date.now(), weight: w, purity: p, karat: k==='custom'?'Custom':k+'K' });
         document.getElementById('qWeight').value = '';
         recalc();
     }
