@@ -13,86 +13,115 @@
             --danger: #ef4444;
             --dark-badge: #334155;
             --price-blue: #4338ca;
+            --highlight-gold: #fef3c7; 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, system-ui, sans-serif; }
         body { background: var(--bg); padding: 10px; padding-bottom: 60px; }
         .container { max-width: 700px; margin: 0 auto; background: var(--card); border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
 
-        #printHeader { display: none; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        /* PRINT STYLES */
+        #printHeader { display: none; }
         @media print {
-            .quick-add, .btn-action, #bulkBar, details, .checkbox-ui, .edit-drawer, .header, .btn-photo { display: none !important; }
+            .quick-add, .btn-action, #bulkBar, details, .checkbox-ui, .edit-drawer, .header, .btn-photo, #recordsList { display: none !important; }
             #printHeader { display: block; }
-            .item-card { border: none; border-bottom: 1px solid #eee; margin-bottom: 10px; border-radius: 0; }
-            .container { box-shadow: none; padding: 0; max-width: 100%; }
+            .container { box-shadow: none; padding: 0; max-width: 100%; border-radius: 0; }
             body { background: white; padding: 0; }
+            .receipt-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            .receipt-table th { background: #f8fafc; border-bottom: 2px solid #000; text-align: left; padding: 10px; font-size: 0.8rem; text-transform: uppercase; }
+            .receipt-table td { padding: 10px; border-bottom: 1px solid #eee; font-size: 0.9rem; vertical-align: middle; }
+            .receipt-img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #eee; }
+            .sig-section { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 60px; }
+            .sig-box { border-top: 1px solid #000; padding-top: 8px; font-size: 0.75rem; font-weight: bold; text-align: center; }
         }
 
         .header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
         .spot-badge { background: #eef2ff; color: var(--primary); padding: 5px 12px; border-radius: 50px; font-weight: 700; font-size: 0.8rem; }
-        .totals-banner { background: var(--primary); color: white; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; margin-bottom: 20px; }
+        
+        .totals-banner { 
+            background: var(--primary); 
+            color: white; 
+            padding: 15px; 
+            border-radius: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 20px; 
+            transition: background 0.3s;
+        }
+        .totals-banner.alt-unit-active { background: #b45309; } 
         .total-val { font-size: 1.3rem; font-weight: 900; }
 
-        .grid-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .grid-settings { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 15px; 
+            margin-top: 10px; 
+        }
         .input-group { display: flex; flex-direction: column; gap: 4px; }
         label { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
         input, select, textarea { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; width: 100%; font-weight: 600; }
-        input:disabled { background: #f8fafc; color: #94a3b8; cursor: not-allowed; }
         
+        /* DYNAMIC UNIT HIGHLIGHT */
+        .unit-highlight { background-color: var(--highlight-gold) !important; border-color: #f59e0b !important; color: #92400e !important; }
+
         .quick-add { background: #eff6ff; padding: 12px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; margin-bottom: 20px; border: 1px solid #bfdbfe; }
         .btn-add { background: #10b981; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
-        .item-card { border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 12px; background: white; transition: border 0.2s; }
-        .item-card.editing { border: 2px solid var(--primary); background: #fafafa; }
+        .item-card { border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 12px; background: white; }
         .card-view { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .card-left { display: flex; align-items: center; gap: 15px; }
-        
-        .karat-badge { background: var(--dark-badge); color: white; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 800; min-width: 50px; text-align: center; }
-        .item-text { font-size: 1.2rem; font-weight: 800; color: #1e293b; letter-spacing: -0.5px; }
-        .item-price { color: var(--price-blue); font-size: 1.3rem; font-weight: 900; }
-        
+        .card-left { display: flex; align-items: center; gap: 12px; }
+        .item-price { color: var(--price-blue); font-size: 1.2rem; font-weight: 900; }
         .thumb-preview { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; background: #f1f5f9; }
-        .checkbox-ui { width: 22px; height: 22px; cursor: pointer; accent-color: var(--primary); }
 
-        .edit-drawer { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
-        .item-card.editing .edit-drawer { display: block; }
-        .btn-photo { background: #6366f1; color: white; border: none; padding: 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
         .btn-action { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; margin-top: 10px; }
-        #bulkBar { display: none; justify-content: space-between; align-items: center; background: #fee2e2; padding: 12px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #fecaca; }
+        
+        @media (max-width: 500px) {
+            .quick-add { grid-template-columns: 1fr 1fr; }
+            .btn-add { grid-column: span 2; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="printHeader">
-        <h1 style="margin-bottom: 5px;">GOLD PURCHASE RECEIPT</h1>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
-            <div><strong>Date:</strong> <span id="pDate"></span></div>
-            <div><strong>Seller:</strong> <span id="pSeller"></span></div>
-            <div><strong>Buyer:</strong> <span id="pBuyer"></span></div>
-            <div><strong>Terms:</strong> <span id="pTerms"></span></div>
+        <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
+            <div><h1>GOLD RECEIPT</h1><p>Date: <span id="pDate"></span></p></div>
+            <div style="text-align: right;"><h3 id="pBuyer">Business Name</h3></div>
         </div>
+        <table class="receipt-table">
+            <thead><tr><th>Photo</th><th>Item</th><th>Weight</th><th>Purity</th><th style="text-align: right;">Amount</th></tr></thead>
+            <tbody id="pItemsBody"></tbody>
+            <tfoot><tr><td colspan="4" style="text-align: right; font-weight: 800;">TOTAL SETTLEMENT:</td><td id="pTotalPrint" style="text-align: right; font-weight: 900;"></td></tr></tfoot>
+        </table>
     </div>
 
     <div class="header">
-        <h2>Gold Calc Pro</h2>
+        <h2>Gold Tracker</h2>
         <div class="spot-badge" id="livePrice">Spot: $...</div>
     </div>
 
-    <details open style="margin-bottom: 15px;">
-        <summary style="cursor:pointer; font-size: 0.7rem; font-weight: 700; color: var(--primary);">TRANSACTION DETAILS</summary>
+    <details open>
+        <summary style="cursor:pointer; font-size: 0.7rem; font-weight: 700; color: var(--primary); margin-bottom: 10px;">TRANSACTION SETTINGS</summary>
         <div class="grid-settings">
             <div class="input-group"><label>Date</label><input type="date" id="docDate" oninput="syncHeader()"></div>
-            <div class="input-group"><label>Seller Name</label><input type="text" id="seller" placeholder="Customer Name" oninput="syncHeader()"></div>
+            <div class="input-group"><label>Seller</label><input type="text" id="seller" placeholder="Customer Name" oninput="syncHeader()"></div>
             <div class="input-group"><label>Spot Price</label><input type="number" id="spotPrice" oninput="recalc()"></div>
             <div class="input-group"><label>% of Spot</label><input type="number" id="percent" value="90" oninput="recalc()"></div>
-            <div class="input-group"><label>Unit</label><select id="unit" onchange="recalc()"><option value="grams">Grams</option><option value="dwt">Dwt</option></select></div>
-            <div class="input-group"><label>Buyer</label><input type="text" id="buyer" placeholder="Store/Buyer" oninput="syncHeader()"></div>
+            <div class="input-group"><label>Unit Type</label>
+                <select id="unit" onchange="recalc()">
+                    <option value="grams">Grams (g)</option>
+                    <option value="dwt">Pennyweight (dwt)</option>
+                    <option value="ozt">Troy Ounces (ozt)</option>
+                </select>
+            </div>
+            <div class="input-group"><label>Buyer</label><input type="text" id="buyer" placeholder="Store Name" oninput="syncHeader()"></div>
         </div>
     </details>
 
-    <div class="totals-banner">
-        <div>Total: <span id="totalW">0.00</span> <span id="uLabel">g</span></div>
+    <div class="totals-banner" id="banner">
+        <div id="weightDisplay">Total: <span id="totalW">0.00</span> <span id="uLabel">g</span></div>
         <div id="totalC" class="total-val">$0.00</div>
     </div>
 
@@ -101,16 +130,11 @@
         <div class="input-group">
             <label>Karat</label>
             <select id="qKarat" onchange="syncPurity('qKarat', 'qPurity')">
-                <option value="8">8K</option><option value="9">9K</option><option value="10" selected>10K</option><option value="12">12K</option><option value="14">14K</option><option value="18">18K</option><option value="22">22K</option><option value="24">24K</option><option value="custom">Custom</option>
+                <option value="10" selected>10K</option><option value="14">14K</option><option value="18">18K</option><option value="22">22K</option><option value="24">24K</option><option value="custom">Custom</option>
             </select>
         </div>
-        <div class="input-group"><label>Purity %</label><input type="number" id="qPurity" value="41.67" step="0.01" disabled></div>
+        <div class="input-group"><label>Purity %</label><input type="number" id="qPurity" value="41.67" disabled></div>
         <button class="btn-add" onclick="addNew()">ADD</button>
-    </div>
-
-    <div id="bulkBar">
-        <span id="bulkCount" style="font-weight: 800; color: var(--danger);">0 Selected</span>
-        <button style="background: var(--danger); color: white; border:none; padding: 5px 10px; border-radius: 5px; font-weight:700;" onclick="deleteSelected()">Delete Selected</button>
     </div>
 
     <div id="recordsList"></div>
@@ -121,7 +145,7 @@
 
 <script>
     let records = [];
-    const karatMap = { 8: 33.33, 9: 37.50, 10: 41.67, 12: 50.00, 14: 58.33, 18: 75.0, 22: 91.67, 24: 99.99 };
+    const karatMap = { 10: 41.67, 14: 58.33, 18: 75.0, 22: 91.67, 24: 99.99 };
 
     function syncPurity(kId, pId) {
         const kSelect = document.getElementById(kId);
@@ -129,95 +153,12 @@
         if(kSelect.value !== 'custom') {
             pInput.value = karatMap[kSelect.value];
             pInput.disabled = true;
-        } else {
-            pInput.disabled = false;
-        }
+        } else { pInput.disabled = false; }
     }
 
     function syncHeader() {
         document.getElementById('pDate').innerText = document.getElementById('docDate').value;
-        document.getElementById('pSeller').innerText = document.getElementById('seller').value || 'N/A';
-        document.getElementById('pBuyer').innerText = document.getElementById('buyer').value || 'N/A';
-        const spot = document.getElementById('spotPrice').value || '0';
-        const pct = document.getElementById('percent').value || '0';
-        document.getElementById('pTerms').innerText = `$${spot} @ ${pct}%`;
-    }
-
-    async function fetchSpot() {
-        try {
-            const r = await fetch('https://api.metals.dev/v1/latest?api_key=SDLIO6XALG4MJ66HNTWF1196HNTWF&currency=USD&unit=toz');
-            const d = await r.json();
-            const val = d.metals.gold;
-            document.getElementById('livePrice').innerText = `Spot: $${val.toFixed(2)}`;
-            if(!document.getElementById('spotPrice').value) document.getElementById('spotPrice').value = val;
-            recalc();
-        } catch(e) { document.getElementById('livePrice').innerText = "Spot: Offline"; }
-    }
-
-    function addNew() {
-        const w = parseFloat(document.getElementById('qWeight').value);
-        const p = parseFloat(document.getElementById('qPurity').value);
-        const k = document.getElementById('qKarat').value;
-        if(!w || !p) return;
-        records.push({ id: Date.now(), weight: w, purity: p, karat: k==='custom'?'Custom':k+'K', notes: '', img: null, selected: false, isEditing: false });
-        document.getElementById('qWeight').value = '';
-        recalc();
-    }
-
-    function updateRecSilent(id, field, value) {
-        const rec = records.find(r => r.id === id);
-        if(field === 'karat') {
-            if(value !== 'custom') {
-                rec.karat = value + 'K';
-                rec.purity = karatMap[value];
-                const pInput = document.getElementById(`purity-${id}`);
-                pInput.value = rec.purity;
-                pInput.disabled = true;
-            } else {
-                rec.karat = 'Custom';
-                document.getElementById(`purity-${id}`).disabled = false;
-            }
-            recalc(); // Full refresh for karat change to update prices/badges
-        } else {
-            rec[field] = (field === 'notes' || field === 'selected') ? value : parseFloat(value);
-            // Don't call recalc() here to avoid focus jumps
-            updateTotalsOnly();
-        }
-    }
-
-    function updateTotalsOnly() {
-        const spot = parseFloat(document.getElementById('spotPrice').value) || 0;
-        const pct = parseFloat(document.getElementById('percent').value) / 100 || 0;
-        const unit = document.getElementById('unit').value;
-        let tW = 0, tC = 0;
-        records.forEach(rec => {
-            let conv = unit === 'grams' ? 31.1035 : 20;
-            let price = (rec.weight / conv) * (rec.purity / 100) * spot * pct;
-            tW += rec.weight; tC += price;
-            // Update individual price displays without rebuilding
-            const priceEl = document.getElementById(`price-${rec.id}`);
-            if(priceEl) priceEl.innerText = `$${price.toFixed(2)}`;
-            const textEl = document.getElementById(`text-${rec.id}`);
-            if(textEl) textEl.innerText = `${rec.weight}${unit[0]} - ${rec.purity}%`;
-        });
-        document.getElementById('totalW').innerText = tW.toFixed(2);
-        document.getElementById('totalC').innerText = `$${tC.toFixed(2)}`;
-        localStorage.setItem('goldState_stable', JSON.stringify(records));
-    }
-
-    function handleImage(id, input) {
-        const reader = new FileReader();
-        reader.onload = (e) => { records.find(r => r.id === id).img = e.target.result; recalc(); };
-        if(input.files[0]) reader.readAsDataURL(input.files[0]);
-    }
-
-    function deleteSelected() {
-        if(confirm("Delete selected items?")) { records = records.filter(r => !r.selected); recalc(); }
-    }
-
-    function toggleEdit(id) {
-        records.forEach(r => r.isEditing = (r.id === id ? !r.isEditing : false));
-        recalc();
+        document.getElementById('pBuyer').innerText = document.getElementById('buyer').value || 'Business Name';
     }
 
     function recalc() {
@@ -225,68 +166,83 @@
         const pct = parseFloat(document.getElementById('percent').value) / 100 || 0;
         const unit = document.getElementById('unit').value;
         const list = document.getElementById('recordsList');
+        const banner = document.getElementById('banner');
+        const weightBox = document.getElementById('weightDisplay');
+        const unitLabel = document.getElementById('uLabel');
+        
+        // UNIT LOGIC: RESTORE OZT AND GRAM HIGHLIGHT
+        const isGram = unit === 'grams';
+        unitLabel.innerText = unit === 'ozt' ? 'ozt' : (unit === 'dwt' ? 'dwt' : 'g');
+        
+        if(!isGram) {
+            banner.classList.add('alt-unit-active');
+            weightBox.classList.add('unit-highlight');
+        } else {
+            banner.classList.remove('alt-unit-active');
+            weightBox.classList.remove('unit-highlight');
+        }
+
         list.innerHTML = '';
-        let selCount = 0;
+        let tW = 0, tC = 0;
+        const printBody = document.getElementById('pItemsBody');
+        printBody.innerHTML = '';
 
         records.forEach(rec => {
-            if(rec.selected) selCount++;
-            let conv = unit === 'grams' ? 31.1035 : 20;
-            let price = (rec.weight / conv) * (rec.purity / 100) * spot * pct;
-            const isCustom = rec.karat === 'Custom';
-            const karatVal = isCustom ? 'custom' : rec.karat.replace('K','');
+            let conv = 31.1035; // Default for grams/ozt
+            if(unit === 'dwt') conv = 20;
+            
+            // If the unit is OZT, the conversion from OZT to Troy Ounces is 1:1, 
+            // but the spot price is per Troy Ounce, so we treat weight as pure ounces.
+            let price = (unit === 'ozt') ? (rec.weight * (rec.purity/100) * spot * pct) 
+                                         : (rec.weight / conv) * (rec.purity / 100) * spot * pct;
+            
+            tW += rec.weight; tC += price;
 
             const div = document.createElement('div');
-            div.className = `item-card ${rec.isEditing ? 'editing' : ''}`;
-            div.innerHTML = `
-                <div class="card-view" onclick="toggleEdit(${rec.id})">
-                    <div class="card-left">
-                        <input type="checkbox" class="checkbox-ui" ${rec.selected ? 'checked' : ''} onclick="event.stopPropagation(); updateRecSilent(${rec.id}, 'selected', this.checked); recalc();">
-                        <div class="karat-badge">${rec.karat}</div>
-                        ${rec.img ? `<img src="${rec.img}" class="thumb-preview">` : ''}
-                        <span class="item-text" id="text-${rec.id}">${rec.weight}${unit[0]} - ${rec.purity}%</span>
-                    </div>
-                    <div class="item-price" id="price-${rec.id}">$${price.toFixed(2)}</div>
+            div.className = 'item-card';
+            div.innerHTML = `<div class="card-view" onclick="toggleEdit(${rec.id})">
+                <div class="card-left">
+                    <div class="karat-badge" style="background:var(--dark-badge);color:white;padding:5px;border-radius:5px;font-size:0.8rem;font-weight:800;">${rec.karat}</div>
+                    ${rec.img ? `<img src="${rec.img}" class="thumb-preview">` : ''}
+                    <span style="font-weight:700;">${rec.weight}${unitLabel.innerText}</span>
                 </div>
-                <div class="edit-drawer" onclick="event.stopPropagation()">
-                    <div class="grid-settings">
-                        <div class="input-group"><label>Weight</label><input type="number" step="0.01" value="${rec.weight}" oninput="updateRecSilent(${rec.id}, 'weight', this.value)"></div>
-                        <div class="input-group">
-                            <label>Karat</label>
-                            <select onchange="updateRecSilent(${rec.id}, 'karat', this.value)">
-                                <option value="8" ${karatVal==='8'?'selected':''}>8K</option>
-                                <option value="9" ${karatVal==='9'?'selected':''}>9K</option>
-                                <option value="10" ${karatVal==='10'?'selected':''}>10K</option>
-                                <option value="12" ${karatVal==='12'?'selected':''}>12K</option>
-                                <option value="14" ${karatVal==='14'?'selected':''}>14K</option>
-                                <option value="18" ${karatVal==='18'?'selected':''}>18K</option>
-                                <option value="22" ${karatVal==='22'?'selected':''}>22K</option>
-                                <option value="24" ${karatVal==='24'?'selected':''}>24K</option>
-                                <option value="custom" ${isCustom?'selected':''}>Custom</option>
-                            </select>
-                        </div>
-                        <div class="input-group"><label>Purity %</label><input type="number" id="purity-${rec.id}" step="0.01" value="${rec.purity}" ${!isCustom?'disabled':''} oninput="updateRecSilent(${rec.id}, 'purity', this.value)"></div>
-                        <div class="input-group"><label>Photo</label><button class="btn-photo" onclick="document.getElementById('img-${rec.id}').click()">Change</button></div>
-                    </div>
-                    <input type="file" id="img-${rec.id}" style="display:none" accept="image/*" onchange="handleImage(${rec.id}, this)">
-                    <textarea style="margin-top:10px" placeholder="Notes..." oninput="updateRecSilent(${rec.id}, 'notes', this.value)">${rec.notes}</textarea>
-                </div>`;
+                <div class="item-price">$${price.toFixed(2)}</div>
+            </div>`;
             list.appendChild(div);
+
+            printBody.innerHTML += `<tr>
+                <td>${rec.img ? `<img src="${rec.img}" class="receipt-img">` : 'No Photo'}</td>
+                <td>${rec.karat} Gold</td>
+                <td>${rec.weight}${unitLabel.innerText}</td>
+                <td>${rec.purity}%</td>
+                <td style="text-align:right;">$${price.toFixed(2)}</td>
+            </tr>`;
         });
 
-        updateTotalsOnly();
-        const bulk = document.getElementById('bulkBar');
-        bulk.style.display = selCount > 0 ? 'flex' : 'none';
-        document.getElementById('bulkCount').innerText = `${selCount} Selected`;
+        document.getElementById('totalW').innerText = tW.toFixed(2);
+        document.getElementById('totalC').innerText = `$${tC.toFixed(2)}`;
+        document.getElementById('pTotalPrint').innerText = `$${tC.toFixed(2)}`;
+        localStorage.setItem('goldState_stable', JSON.stringify(records));
         syncHeader();
     }
 
-    function resetApp() { if(confirm("Clear everything?")) { records = []; localStorage.removeItem('goldState_stable'); recalc(); } }
+    function addNew() {
+        const w = parseFloat(document.getElementById('qWeight').value);
+        const p = parseFloat(document.getElementById('qPurity').value);
+        const k = document.getElementById('qKarat').value;
+        if(!w) return;
+        records.push({ id: Date.now(), weight: w, purity: p, karat: k==='custom'?'Custom':k+'K', img: null });
+        document.getElementById('qWeight').value = '';
+        recalc();
+    }
+
+    function resetApp() { if(confirm("Clear current transaction?")) { records = []; recalc(); } }
 
     window.onload = () => {
         document.getElementById('docDate').valueAsDate = new Date();
         const saved = localStorage.getItem('goldState_stable');
         if(saved) records = JSON.parse(saved);
-        fetchSpot();
+        recalc();
     };
 </script>
 </body>
